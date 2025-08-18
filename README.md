@@ -12,3 +12,11 @@ View the exercises in the [GitHub Pages site for this repo](https://microsoftlea
 
 If you encounter any problems in the exercises, please report them as **issues** in this repo.
 
+
+
+# Resources
+
+-   [Let's Learn .NET Semantic Kernel - From MS DOTNET - Video](https://www.youtube.com/watch?v=lCQOCoH3Osk)
+    -   [Let's Learn .NET Semantic Kernel - Training Module](https://learn.microsoft.com/en-us/collections/4wrote7dxq3mxx?WT.mc_id=dotnet-147962-juyoo)
+    -   [Let's Learn .NET Semantic Kernel - Github.IO Instruction](https://microsoftlearning.github.io/mslearn-ai-semantic-kernel/)
+    -   [Let's Learn .NET Semantic Kernel - Github Template](https://github.com/MicrosoftLearning/mslearn-ai-semantic-kernel)

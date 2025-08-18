@@ -482,3 +482,18 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Visual Studio
+.vs/
+*.vs/
+
+# Binaries
+[Dd]ebug/
+[Rr]elease/
+*.suo
+*.user
+*.pdb
+
+# Build artifacts
+[Bb]in/
+[Oo]bj/

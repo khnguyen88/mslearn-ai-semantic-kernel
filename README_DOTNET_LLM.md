@@ -1,4 +1,4 @@
-# Date: 2025/08/18
+# Date: 2025/08/19
 
 # General, Misc, Uncategorizable (Yet) Resources
 
@@ -332,6 +332,12 @@ Using an agent framework for application development provides advantages that ar
 
 ### References and Link
 
+-   [Lenni's Technology Blog - Building a Custom RAG Solution with Azure OpenAI and Multi-Backend Support](https://lennilobel.wordpress.com/2025/03/04/building-a-custom-rag-solution-with-azure-openai-and-multi-backend-support/)
+-   [Lenni's Technology Blog - RAG Demo - Github](https://github.com/lennilobel/ai-demos-public/tree/main/Rag)
+-   [RAG on your data with .NET, AI and Azure SQL](https://www.youtube.com/watch?v=q9R2m7UIn-o)
+-   [Retrieval-Augmented Generation (RAG) with .NET 8: A Full Local Resource Guide ](https://www.youtube.com/watch?v=VVZU-lbEegw)
+-   [Ollama C# Playground](https://github.com/elbruno/Ollama-CSharp-Playground)
+    -   [Github - Phi Cookbook: Hands-On Examples with Microsoft's Phi Models](https://github.com/microsoft/PhiCookBook)
 -   [Build a RAG application with LangChain and Local LLMs powered by Ollama - Blog](https://devblogs.microsoft.com/cosmosdb/build-a-rag-application-with-langchain-and-local-llms-powered-by-ollama/)
 -   [Build a RAG application with LangChain and Local LLMs powered by Ollama - Video](https://www.youtube.com/watch?v=AQ-h1JHaX7I)
 

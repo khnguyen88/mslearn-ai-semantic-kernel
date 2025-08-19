@@ -1,4 +1,4 @@
-# Date: 2025/08/19
+# Date: 2025/08/19, 11:00AM
 
 # General, Misc, Uncategorizable (Yet) Resources
 
@@ -206,7 +206,7 @@ Using an agent framework for application development provides advantages that ar
 -   [Using plugins for Retrieval Augmented Generation (RAG)](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/using-data-retrieval-functions-for-rag?source=recommendations)
 -   [Let's Learn .NET Semantic Kernel - From MS DOTNET - Video](https://www.youtube.com/watch?v=lCQOCoH3Osk)
     -   [Let's Learn .NET Semantic Kernel - Training Module](https://learn.microsoft.com/en-us/collections/4wrote7dxq3mxx?WT.mc_id=dotnet-147962-juyoo)
-    -   [Let's Learn .NET Semantic Kernel - Github.IO Instruction](https://microsoftlearning.github.io/mslearn-ai-semantic-kernel/)
+    -   [Let's Learn .NET Semantic Kernel - Github.IO Instruction (HIGHLY RECOMMEND!)](https://microsoftlearning.github.io/mslearn-ai-semantic-kernel/)
     -   [Let's Learn .NET Semantic Kernel - Github Template](https://github.com/MicrosoftLearning/mslearn-ai-semantic-kernel)
 -   [Develop AI Agents with Azure OpenAI and Semantic Kernel SDK - Github Template](https://github.com/MicrosoftLearning/MSLearn-Develop-AI-Agents-with-Azure-OpenAI-and-Semantic-Kernel-SDK)
 -   [Semantic Kernel Cookbook](https://github.com/kinfey/SemanticKernelCookBook/tree/main)
@@ -222,6 +222,9 @@ Using an agent framework for application development provides advantages that ar
 -   [Integrating Model Context Protocol Tools with Semantic Kernel: A Step-by-Step Guide](https://devblogs.microsoft.com/semantic-kernel/integrating-model-context-protocol-tools-with-semantic-kernel-a-step-by-step-guide/)
 -   [Building a Model Context Protocol Server with Semantic Kernel](https://devblogs.microsoft.com/semantic-kernel/building-a-model-context-protocol-server-with-semantic-kernel/)
 -   [Working wiht multiple models in Semantic Kernel](https://dev.to/stormhub/working-with-multiple-language-models-in-semantic-kernel-31gk)
+
+-   [Semantic Kernel - Handlebar Prompt Templating Format](https://learn.microsoft.com/en-us/semantic-kernel/concepts/prompts/handlebars-prompt-templates?pivots=programming-language-csharp)
+-   [Handlebar Templating Guide](https://handlebarsjs.com/guide/)
 
 # Kernel Memory:
 

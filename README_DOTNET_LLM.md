@@ -1,4 +1,4 @@
-# Date: 2025/08/20, 8:00AM
+# Date: 2025/08/20, 2:00 PM
 
 # General, Misc, Uncategorizable (Yet) Resources
 
@@ -202,22 +202,37 @@ Using an agent framework for application development provides advantages that ar
 ### Recommended
 
 -   [Introduction to Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
+
     -   [Understanding the kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
     -   [What is a Plugin?](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/?pivots=programming-language-csharp)
     -   [Using plugins for Retrieval Augmented Generation (RAG)](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/using-data-retrieval-functions-for-rag?source=recommendations)
 
 -   [Let's Learn .NET Semantic Kernel - From MS DOTNET - Video](https://www.youtube.com/watch?v=lCQOCoH3Osk)
+
     -   [Let's Learn .NET Semantic Kernel - Training Module](https://learn.microsoft.com/en-us/collections/4wrote7dxq3mxx?WT.mc_id=dotnet-147962-juyoo)
     -   [Let's Learn .NET Semantic Kernel - Github.IO Instruction (HIGHLY RECOMMEND!)](https://microsoftlearning.github.io/mslearn-ai-semantic-kernel/)
     -   [Let's Learn .NET Semantic Kernel - Github Template](https://github.com/MicrosoftLearning/mslearn-ai-semantic-kernel)
+
 -   [Develop AI Agents with Azure OpenAI and Semantic Kernel SDK - Github Template](https://github.com/MicrosoftLearning/MSLearn-Develop-AI-Agents-with-Azure-OpenAI-and-Semantic-Kernel-SDK)
 
 -   [Semantic Kernel - Microsoft - Github](https://github.com/microsoft/semantic-kernel)
 
     -   [Semantic Kernel - Samples - Microsoft - Github](https://github.com/microsoft/semantic-kernel/tree/main/dotnet/samples)
+    -   [Semantic Kernel - Samples - Agents - Microsoft - Github](https://github.com/microsoft/semantic-kernel/tree/main/dotnet/samples/GettingStartedWithAgents)
 
--   [Building AI Agent Workflows with Semantic Kernel - Youtube](https://www.youtube.com/watch?v=3JFKwerYj04)
-    -   [Sample of Semantic Kernel Project, Link form Youtube](https://github.com/vicperdana/SemantiClip)
+-   [Develop an AI Agent using Semantic Kernel AI-3026 - Youtube (Python)](https://www.youtube.com/watch?v=NFs4zXIhHKU)
+-   [Orchestrate a multi-agent solution using Semantic Kernel - Microsoft (Python) - Great Read though](https://learn.microsoft.com/en-us/training/modules/orchestrate-semantic-kernel-multi-agent-solution/)
+
+-   [Building AI Agent Using Semantic Kernel and Agent Framework - Systenic AI - Blog](https://systenics.ai/blog/2025-04-09-building-ai-agent-using-semantic-kernel-agent-framework/)
+    -   Content falls inline with `Develop an AI Agent using Semantic Kernel AI-3026 - Youtube (Python)`
+-   [Building Multi‑Agent AI Workflows with Semantic Kernel Agent Framework in .NET - Systenic AI - Blog](https://systenics.ai/blog/2025-04-17-building-multiagent-ai-workflows-with-semantic-kernel-in-dotnet/)
+-   [Automate Workflows with Microsoft Semantic Kernel Process Framework in .NET T - Systenic AI - Blog](https://systenics.ai/blog/2025-04-18-automate-workflows-with-microsoft-semantic-kernel-process-framework/)
+
+-   [Full Course (Lessons 1-10) AI Agents for Beginners - Microsoft Developer - Youtube (Python)](www.youtube.com/watch?v=OhI005_aJkA)
+-   [AI Agents for Beginner - Microsoft Developer - Github (Python)](https://github.com/microsoft/ai-agents-for-beginners)
+
+-   [Building AI Agent Workflows with Semantic Kernel - Microsoft Developer - Youtube (C# and .NET)](https://www.youtube.com/watch?v=3JFKwerYj04)
+    -   [Sample of Complete Semantic Kernel Project- Microsoft Developer - Github (C# and .NET)](https://github.com/vicperdana/SemantiClip)
 
 ### Others
 
@@ -230,6 +245,7 @@ Using an agent framework for application development provides advantages that ar
     -   [Introduction to Memories in the Semantic Kernel SDK - Will Velida](https://www.youtube.com/watch?v=nKjVrV23XN4)
 -   [Building Local AI Agents: Semantic Kernel and Ollama in C# - Part 1](https://laurentkempe.com/2025/03/01/building-local-ai-agents-semantic-kernel-and-ollama-in-csharp/)
 -   [Building Local AI Agents: Semantic Kernel Agent with Functions in C# using Ollama - Part 2](https://laurentkempe.com/2025/03/02/building-local-ai-agents-semantic-kernel-agent-with-functions-in-csharp-using-ollama/)
+-   [Build your first AI Agents using Semantic Kernel in C#](https://www.youtube.com/watch?v=4pI-LxK-NwE)
 -   [AI Integrations for Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/integrations)
 -   [Integrating Model Context Protocol Tools with Semantic Kernel: A Step-by-Step Guide](https://devblogs.microsoft.com/semantic-kernel/integrating-model-context-protocol-tools-with-semantic-kernel-a-step-by-step-guide/)
 -   [Building a Model Context Protocol Server with Semantic Kernel](https://devblogs.microsoft.com/semantic-kernel/building-a-model-context-protocol-server-with-semantic-kernel/)
@@ -430,3 +446,4 @@ Using an agent framework for application development provides advantages that ar
 
 [Let's Learn MCP: C# - Video](https://www.youtube.com/watch?v=4zkIBMFdL2w&list=PLdo4fOcmZ0oVGRpRwbMhUA0KAvMA2mLyN&index=1)
 [Let's Learn MCP with C# - Tutorial Series](https://github.com/microsoft/lets-learn-mcp-csharp)
+[Building a Model Context Protocol Server with .NET and Semantic Kernel Integration - Systenics AI Blog](https://systenics.ai/blog/2025-04-10-building-a-model-context-protocol-server-with-net-and-semantic-kernel-integration/)

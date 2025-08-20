@@ -202,9 +202,9 @@ Using an agent framework for application development provides advantages that ar
 ### Recommended
 
 -   [Semantic Kernel - Microsoft - Github](https://github.com/microsoft/semantic-kernel)
-
     -   [Semantic Kernel - Samples - Microsoft - Github](https://github.com/microsoft/semantic-kernel/tree/main/dotnet/samples)
-    -   [Building AI Agent Workflows with Semantic Kernel - Youtube](https://www.youtube.com/watch?v=3JFKwerYj04)
+
+-   [Building AI Agent Workflows with Semantic Kernel - Youtube](https://www.youtube.com/watch?v=3JFKwerYj04)
     -   [Sample of Semantic Kernel Project, Link form Youtube](https://github.com/vicperdana/SemantiClip)
 
 -   [Introduction to Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)

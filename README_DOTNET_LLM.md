@@ -201,24 +201,25 @@ Using an agent framework for application development provides advantages that ar
 
 ### Recommended
 
--   [Semantic Kernel - Microsoft - Github](https://github.com/microsoft/semantic-kernel)
-    -   [Semantic Kernel - Samples - Microsoft - Github](https://github.com/microsoft/semantic-kernel/tree/main/dotnet/samples)
-
--   [Building AI Agent Workflows with Semantic Kernel - Youtube](https://www.youtube.com/watch?v=3JFKwerYj04)
-    -   [Sample of Semantic Kernel Project, Link form Youtube](https://github.com/vicperdana/SemantiClip)
-
 -   [Introduction to Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
--   [Understanding the kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
-
--   [What is a Plugin?](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/?pivots=programming-language-csharp)
-
--   [Using plugins for Retrieval Augmented Generation (RAG)](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/using-data-retrieval-functions-for-rag?source=recommendations)
+    -   [Understanding the kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
+    -   [What is a Plugin?](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/?pivots=programming-language-csharp)
+    -   [Using plugins for Retrieval Augmented Generation (RAG)](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/using-data-retrieval-functions-for-rag?source=recommendations)
 
 -   [Let's Learn .NET Semantic Kernel - From MS DOTNET - Video](https://www.youtube.com/watch?v=lCQOCoH3Osk)
     -   [Let's Learn .NET Semantic Kernel - Training Module](https://learn.microsoft.com/en-us/collections/4wrote7dxq3mxx?WT.mc_id=dotnet-147962-juyoo)
     -   [Let's Learn .NET Semantic Kernel - Github.IO Instruction (HIGHLY RECOMMEND!)](https://microsoftlearning.github.io/mslearn-ai-semantic-kernel/)
     -   [Let's Learn .NET Semantic Kernel - Github Template](https://github.com/MicrosoftLearning/mslearn-ai-semantic-kernel)
 -   [Develop AI Agents with Azure OpenAI and Semantic Kernel SDK - Github Template](https://github.com/MicrosoftLearning/MSLearn-Develop-AI-Agents-with-Azure-OpenAI-and-Semantic-Kernel-SDK)
+
+-   [Semantic Kernel - Microsoft - Github](https://github.com/microsoft/semantic-kernel)
+
+    -   [Semantic Kernel - Samples - Microsoft - Github](https://github.com/microsoft/semantic-kernel/tree/main/dotnet/samples)
+
+-   [Building AI Agent Workflows with Semantic Kernel - Youtube](https://www.youtube.com/watch?v=3JFKwerYj04)
+    -   [Sample of Semantic Kernel Project, Link form Youtube](https://github.com/vicperdana/SemantiClip)
+
+### Others
 
 -   [Semantic Kernel Cookbook](https://github.com/kinfey/SemanticKernelCookBook/tree/main)
 -   [Semantic Kernel SDK Playlist - Will Velida](https://www.youtube.com/watch?v=ZIBSD8ECuiw&list=PLvtybS2EHFJiVD-AjgkO-7OXiVbUi_Ia-)

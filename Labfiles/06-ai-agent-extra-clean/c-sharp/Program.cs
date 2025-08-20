@@ -3,6 +3,7 @@ using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
+using Microsoft.SemanticKernel.Agents;
 
 // Obtain your API access information
 // ---------------------------------------------------------------
@@ -33,22 +34,12 @@ var kernelBuilder = Kernel.CreateBuilder();
 kernelBuilder.AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey);
 var kernel = kernelBuilder.Build();
 
-
-// Import plugins to the kernel
-// ---------------------------------------------------------------
-kernel.ImportPluginFromType<DevopsPlugin>();
-
 // Create prompt execution settings
 // ---------------------------------------------------------------
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 {
     FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
 };
-
-// Create chat history
-// ---------------------------------------------------------------
-var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
-ChatHistory chatHistory = [];
 
 // Create a kernel function to deploy the staging environment
 // ---------------------------------------------------------------
@@ -61,7 +52,7 @@ functionName: "DeployStageEnvironment",
 description: "Deploy the staging environment"
 );
 
-kernel.Plugins.AddFromFunctions("DeployStageEnvironment", [deployStageFunction]);
+
 
 // Create a handlebars prompt
 // ---------------------------------------------------------------
@@ -88,52 +79,68 @@ var promptTemplateConfig = new PromptTemplateConfig()
 var promptFunction = kernel.CreateFunctionFromPrompt(promptTemplateConfig, templateFactory);
 var branchPlugin = kernel.CreatePluginFromFunctions("BranchPlugin", [promptFunction]);
 
-kernel.Plugins.Add(branchPlugin);
+//kernel.Plugins.Add(branchPlugin);
+
+
+// Create Chat Completion Agent (Extra)
+// =====================================================================================
+ChatCompletionAgent devOpAgent =
+    new()
+    {
+        Name = "DevOpAgent",
+        Instructions = "You are an AI DevOp Agents. Assist the users in anyway you can based on their request. Use the Plugin methods and filter methods, provided to help you.",
+        Description = "An agent that assists the users on Devop Task given the Plugin methods and filters methods, and present them in human readable format.",
+        Kernel = kernel,
+        Arguments = new KernelArguments(openAIPromptExecutionSettings)
+    };
+
+
+// Provide DevOp Agents by importing the plugin and tools to the Kernel (Extra)
+// =====================================================================================
+// Note we can just say add from the kernel object as well, so instead of devOpAgent.Kernel.Plugins.Add(branchPlugin), just do kernel.Plugins.Add(branchPlugin);
+devOpAgent.Kernel.Plugins.Add(branchPlugin);
+devOpAgent.Kernel.Plugins.AddFromFunctions("DeployStageEnvironment", [deployStageFunction]);
+devOpAgent.Kernel.ImportPluginFromType<DevopsPlugin>();
+
 
 // Add filters to the kernel
 // ---------------------------------------------------------------
 kernel.FunctionInvocationFilters.Add(new PermissionFilter());
 
-Console.WriteLine("Press enter to exit");
+// Console Conversation
+// =====================================================================================
+Console.WriteLine("DevOp Demo - Type 'EXIT' to end\n");
 Console.WriteLine("Assistant: How may I help you?");
-Console.Write("User: ");
-
-string input = Console.ReadLine()!;
-
-// User interaction logic
-// ---------------------------------------------------------------
-while (input != "")
-{
-    chatHistory.AddUserMessage(input);
-    await GetReply();
-    input = GetInput();
-}
-
-string GetInput()
+ChatHistoryAgentThread agentThread = new(); // Manages conversation state
+bool isComplete = false;
+do
 {
     Console.Write("User: ");
     string input = Console.ReadLine()!;
-    chatHistory.AddUserMessage(input);
-    return input;
-}
+    if (string.IsNullOrWhiteSpace(input)) { continue; }
 
-async Task GetReply()
-{
-    ChatMessageContent reply = await chatCompletionService.GetChatMessageContentAsync(
-        chatHistory,
-        executionSettings: openAIPromptExecutionSettings,
-        kernel: kernel
-    );
-    Console.WriteLine("Assistant: " + reply.ToString());
-    chatHistory.AddAssistantMessage(reply.ToString());
-}
+    if (input.Trim().Equals("EXIT", StringComparison.OrdinalIgnoreCase))
+    {
+        isComplete = true;
+        break;
+    }
+    var message = new ChatMessageContent(AuthorRole.User, input); //Add user message to conversation
 
+    await foreach (StreamingChatMessageContent response in devOpAgent.InvokeStreamingAsync(message, agentThread))
+    {
+        Console.Write($"{response.Content}"); // Stream to console
+    }
+    Console.WriteLine("");
+
+} while (!isComplete);
+await agentThread.DeleteAsync(); // Delete the thread when it is no longer needed
+Console.WriteLine("\nChat session ended.");
 
 class DevopsPlugin
 {
     // Create a kernel function to build the stage environment
     [KernelFunction("BuildStageEnvironment")]
-    public string BuildStageEnvironment()
+    string BuildStageEnvironment()
     {
         return "Stage build completed.";
     }

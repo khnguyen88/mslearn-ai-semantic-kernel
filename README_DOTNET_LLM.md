@@ -1,4 +1,4 @@
-# Date: 2025/08/20, 2:00 PM
+# Date: 2025/08/21, 10:30 AM
 
 # General, Misc, Uncategorizable (Yet) Resources
 
@@ -201,11 +201,11 @@ Using an agent framework for application development provides advantages that ar
 
 ### Recommended
 
--   [Introduction to Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
+-   [Microsoft Website - Semantic Kernel - Documentation - Introduction to Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
 
-    -   [Understanding the kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
-    -   [What is a Plugin?](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/?pivots=programming-language-csharp)
-    -   [Using plugins for Retrieval Augmented Generation (RAG)](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/using-data-retrieval-functions-for-rag?source=recommendations)
+    -   [Microsoft Website - Semantic Kernel - Documentation - Understanding the kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
+    -   [Microsoft Website - Semantic Kernel - Documentation - What is a Plugin?](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/?pivots=programming-language-csharp)
+    -   [Microsoft Website - Semantic Kernel - Documentation - Using plugins for Retrieval Augmented Generation (RAG)](https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/using-data-retrieval-functions-for-rag?source=recommendations)
 
 -   [Let's Learn .NET Semantic Kernel - From MS DOTNET - Video](https://www.youtube.com/watch?v=lCQOCoH3Osk)
 
@@ -223,18 +223,39 @@ Using an agent framework for application development provides advantages that ar
 -   [Develop an AI Agent using Semantic Kernel AI-3026 - Youtube (Python)](https://www.youtube.com/watch?v=NFs4zXIhHKU)
 -   [Orchestrate a multi-agent solution using Semantic Kernel - Microsoft (Python) - Great Read though](https://learn.microsoft.com/en-us/training/modules/orchestrate-semantic-kernel-multi-agent-solution/)
 
--   [Building AI Agent Using Semantic Kernel and Agent Framework - Systenic AI - Blog](https://systenics.ai/blog/2025-04-09-building-ai-agent-using-semantic-kernel-agent-framework/)
-    -   Content falls inline with `Develop an AI Agent using Semantic Kernel AI-3026 - Youtube (Python)`
--   [Building Multi‑Agent AI Workflows with Semantic Kernel Agent Framework in .NET - Systenic AI - Blog](https://systenics.ai/blog/2025-04-17-building-multiagent-ai-workflows-with-semantic-kernel-in-dotnet/)
--   [Automate Workflows with Microsoft Semantic Kernel Process Framework in .NET T - Systenic AI - Blog](https://systenics.ai/blog/2025-04-18-automate-workflows-with-microsoft-semantic-kernel-process-framework/)
+-   [Microsoft Website - Semantic Kernel - Documentation - Agents Framework](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/?pivots=programming-language-csharp)
+
+    -   [Microsoft Website - Semantic Kernel - Documentation - Agent Orchestration Types + Sample Code](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-orchestration/?pivots=programming-language-csharp)
+
+    -   [Microsoft Website - Semantic Kernel - Documentation - Agents Examples Sample Code](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/examples/example-chat-agent?pivots=programming-language-csharp)
+
+    -   [Microsoft Website - Semantic Kernel - Documentation - Agents Memory](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-memory?pivots=programming-language-csharp)
+
+    -   [Microsoft Website - Semantic Kernel - Documentation - Agents RAG Search + Sample Code](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-rag?pivots=programming-language-csharp)
+
+-   [Microsoft Website - Semantic Kernel - Documentation - Proccess Framework](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/process/process-framework)
+
+    -   [Microsoft Website - Semantic Kernel - Documentation - Process Sample Code](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/process/examples/example-first-process?pivots=programming-language-csharp)
+
+-   [Building AI Agent Workflows with Semantic Kernel - Microsoft Developer - Youtube (C# and .NET)](https://www.youtube.com/watch?v=3JFKwerYj04)
+
+    -   [Sample of Complete Semantic Kernel Project (Semantic Clip) - Microsoft Developer - Github (C# and .NET)](https://github.com/vicperdana/SemantiClip)
+    -   Semantic Clip uses sequential multi-agent orchestration with sementic kernel process
+
+-   [User MS Semantic Kernel Samples - Vinoth Rajendran - GitHub (C# and .NET)](https://github.com/rvinothrajendran/MicrosoftSemanticKernelSamples)
+
+    -   [Sequential multi-agent orcestration - Process + Process Steps and States with Semantic Kernel - Vinoth Rajendran - Github](https://github.com/rvinothrajendran/MicrosoftSemanticKernelSamples/tree/main/SKSampleCSharp/ProcessSample)
+    -   [](https://www.youtube.com/watch?v=xha6M8wK_AY)
 
 -   [Full Course (Lessons 1-10) AI Agents for Beginners - Microsoft Developer - Youtube (Python)](www.youtube.com/watch?v=OhI005_aJkA)
 -   [AI Agents for Beginner - Microsoft Developer - Github (Python)](https://github.com/microsoft/ai-agents-for-beginners)
 
--   [Building AI Agent Workflows with Semantic Kernel - Microsoft Developer - Youtube (C# and .NET)](https://www.youtube.com/watch?v=3JFKwerYj04)
-    -   [Sample of Complete Semantic Kernel Project- Microsoft Developer - Github (C# and .NET)](https://github.com/vicperdana/SemantiClip)
-
 ### Others
+
+-   [Building AI Agent Using Semantic Kernel and Agent Framework - Systenic AI - Blog](https://systenics.ai/blog/2025-04-09-building-ai-agent-using-semantic-kernel-agent-framework/)
+    -   Content falls inline with `Develop an AI Agent using Semantic Kernel AI-3026 - Youtube (Python)`
+-   [Building Multi‑Agent AI Workflows with Semantic Kernel Agent Framework in .NET - Systenic AI - Blog](https://systenics.ai/blog/2025-04-17-building-multiagent-ai-workflows-with-semantic-kernel-in-dotnet/)
+-   [Automate Workflows with Microsoft Semantic Kernel Process Framework in .NET T - Systenic AI - Blog](https://systenics.ai/blog/2025-04-18-automate-workflows-with-microsoft-semantic-kernel-process-framework/)
 
 -   [Semantic Kernel Cookbook](https://github.com/kinfey/SemanticKernelCookBook/tree/main)
 -   [Semantic Kernel SDK Playlist - Will Velida](https://www.youtube.com/watch?v=ZIBSD8ECuiw&list=PLvtybS2EHFJiVD-AjgkO-7OXiVbUi_Ia-)
@@ -250,6 +271,10 @@ Using an agent framework for application development provides advantages that ar
 -   [Integrating Model Context Protocol Tools with Semantic Kernel: A Step-by-Step Guide](https://devblogs.microsoft.com/semantic-kernel/integrating-model-context-protocol-tools-with-semantic-kernel-a-step-by-step-guide/)
 -   [Building a Model Context Protocol Server with Semantic Kernel](https://devblogs.microsoft.com/semantic-kernel/building-a-model-context-protocol-server-with-semantic-kernel/)
 -   [Working wiht multiple models in Semantic Kernel](https://dev.to/stormhub/working-with-multiple-language-models-in-semantic-kernel-31gk)
+
+-   [Concurrent Steps in a Process - Microsoft Github Forum Discussion](https://github.com/microsoft/semantic-kernel/discussions/10955)
+
+    -   It is better to check Microsoft's official semantic kernel github or documentation for a better source for a sample code
 
 -   [Semantic Kernel - Handlebar Prompt Templating Format](https://learn.microsoft.com/en-us/semantic-kernel/concepts/prompts/handlebars-prompt-templates?pivots=programming-language-csharp)
 -   [Handlebar Templating Guide](https://handlebarsjs.com/guide/)

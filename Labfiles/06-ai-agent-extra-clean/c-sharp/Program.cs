@@ -4,6 +4,7 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
 using Microsoft.SemanticKernel.Agents;
+using System.ComponentModel;
 
 // Obtain your API access information
 // ---------------------------------------------------------------
@@ -33,6 +34,8 @@ string apiKey = config["AzureAIFoundry:AIModel:ApiKey"]!;
 var kernelBuilder = Kernel.CreateBuilder();
 kernelBuilder.AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey);
 var kernel = kernelBuilder.Build();
+
+var kernel2 = kernel.Clone(); // How to clone an instance of a second kernel, and provide the necessary configurations to it. Not used in this example, but useful we need spin up a different kernel that requires fewer or more plugin and functionalities and tools for a specific agent.
 
 // Create prompt execution settings
 // ---------------------------------------------------------------
@@ -107,11 +110,21 @@ devOpAgent.Kernel.ImportPluginFromType<DevopsPlugin>();
 // ---------------------------------------------------------------
 kernel.FunctionInvocationFilters.Add(new PermissionFilter());
 
+
+// Declare and initialize the agent chat history thread
+// ---------------------------------------------------------------
+ChatHistoryAgentThread agentThread = new(); // Manages conversation state
+
+// Load in the initial system message if desired (optional)
+// =====================================================================================
+agentThread.ChatHistory.AddSystemMessage("You are a playing a role of a DevOp Engineering Helper"); //Other methods exists for assistent or user too
+agentThread.ChatHistory.Add(new ChatMessageContent() { Role = AuthorRole.System, Content = "You will keep your response short and concise and as specified in the plugin method returns" });
+
+
 // Console Conversation
 // =====================================================================================
 Console.WriteLine("DevOp Demo - Type 'EXIT' to end\n");
 Console.WriteLine("Assistant: How may I help you?");
-ChatHistoryAgentThread agentThread = new(); // Manages conversation state
 bool isComplete = false;
 do
 {
@@ -126,6 +139,7 @@ do
     }
     var message = new ChatMessageContent(AuthorRole.User, input); //Add user message to conversation
 
+    //Alternative to InvokeStreamingAsync() is just InvokeAsync() and to access the last response, it will just be `response.Message.Content`
     await foreach (StreamingChatMessageContent response in devOpAgent.InvokeStreamingAsync(message, agentThread))
     {
         Console.Write($"{response.Content}"); // Stream to console
@@ -140,29 +154,39 @@ class DevopsPlugin
 {
     // Create a kernel function to build the stage environment
     [KernelFunction("BuildStageEnvironment")]
+    [Description("The explicit response an assistant should provide back to the user with no additional add on after the assistant has process their request.")] // Optional
+    [return: Description("The explicit response an assistant should provide back to the user with no additional add on after the assistant has process their request.")] //Optional
     string BuildStageEnvironment()
     {
         return "Stage build completed.";
     }
 
     [KernelFunction("DeployToStage")]
+    [Description("The explicit response an assistant should provide back to the user with no additional add on after the assistant has process their request.")] // Optional
+    [return: Description("The explicit response an assistant should provide back to the user with no additional add on after the assistant has process their request.")] //Optional
     public string DeployToStage()
     {
         return "Staging site deployed successfully.";
     }
 
     [KernelFunction("DeployToProd")]
+    [Description("The explicit response an assistant should provide back to the user with no additional add on after the assistant has process their request.")] // Optional
+    [return: Description("The explicit response an assistant should provide back to the user with no additional add on after the assistant has process their request.")] //Optional
     public string DeployToProd() 
     {
         return "Production site deployed successfully.";
     }
 
     [KernelFunction("CreateNewBranch")]
+    [Description("The explicit response an assistant should provide back to the user with no additional add on after the assistant has process their request.")] // Optional
+    [return: Description("The explicit response an assistant should provide back to the user with no additional add on after the assistant has process their request.")] //Optional
     public string CreateNewBranch(string branchName, string baseBranch) {
         return $"Created new branch `{branchName}` from `{baseBranch}`";
     }
 
     [KernelFunction("ReadLogFile")]
+    [Description("The explicit response an assistant should provide back to the user with no additional add on after the assistant has process their request.")] // Optional
+    [return: Description("The explicit response an assistant should provide back to the user with no additional add on after the assistant has process their request.")] //Optional
     public string ReadLogFile() 
     {
         string content = File.ReadAllText($"Files/build.log");

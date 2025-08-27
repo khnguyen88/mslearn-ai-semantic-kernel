@@ -3,6 +3,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Orchestration;
 using Microsoft.SemanticKernel.Agents.Orchestration.Sequential;
+using Microsoft.SemanticKernel.Agents.Orchestration.Concurrent;
 using Microsoft.SemanticKernel.Agents.Runtime.InProcess;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
@@ -50,9 +51,9 @@ var kernel = kernelBuilder.Build();
 ChatCompletionAgent writerAgent =
     new()
     {
-        Name = "WriterAgent",
-        Instructions = "You are a short story author and writer. You like to write a funny story in 50 words or less. Write in slang.",
-        Description = "An agent that writes a story in 50 words or less.",
+        Name = "ChemistExpert",
+        Instructions = "You are an expert in chemistry. You answer questions from a chemist's perspective.",
+        Description = "A chemistry expert.",
         Kernel = kernel,
         //Arguments = new KernelArguments(openAIPromptExecutionSettings)
     };
@@ -61,9 +62,9 @@ ChatCompletionAgent writerAgent =
 ChatCompletionAgent editorAgent =
     new()
     {
-        Name = "EditorAgent",
-        Instructions = "You are an editor agent. You will fix any grammtical errors or spelling errors in a story sent your way. You can make the tone of the story more positive",
-        Description = "An agent that assists an author or writer in their edits.",
+        Name = "HistorianExpert",
+        Instructions = "You are an expert in history. You answer questions from a historian's perspective.",
+        Description = "A history expert.",
         Kernel = kernel.Clone(),
         //Arguments = new KernelArguments(openAIPromptExecutionSettings)
     };
@@ -71,9 +72,9 @@ ChatCompletionAgent editorAgent =
 ChatCompletionAgent publisherAgent =
     new()
     {
-        Name = "PublisherAgent",
-        Instructions = "You are a publisher agent. You will come up with the title and short one sentence description for the story sent to you. You will provide an ISBN number.",
-        Description = "An agent who provide the title and description for the story shared to them",
+        Name = "EngineeringExpert",
+        Instructions = "You are an expert in engineering. You answer questions from a engineer's perspective.",
+        Description = "An engineering expert.",
         Kernel = kernel.Clone(),
         //Arguments = new KernelArguments(openAIPromptExecutionSettings)
     };
@@ -94,7 +95,7 @@ ValueTask responseCallback(ChatMessageContent response)
 // Create a sequential orchestration
 // ---------------------------------------------------------------
 #pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-SequentialOrchestration orchestration = new(writerAgent, editorAgent, publisherAgent)
+ConcurrentOrchestration orchestration = new(writerAgent, editorAgent, publisherAgent)
 {
 
     ResponseCallback = responseCallback,
@@ -111,7 +112,7 @@ await runtime.StartAsync();
 // Get user input
 // Invoke the orchestration
 // ====================================================================================
-Console.WriteLine("What should we write a story about?");
+Console.WriteLine("What topics do you want a group of expert perspective on?");
 string input = string.Empty;
 input = Console.ReadLine();
 // Invoke the orchestration
@@ -119,14 +120,14 @@ input = Console.ReadLine();
 #pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
 Console.WriteLine($"\n# INPUT: {input}\n");
-OrchestrationResult<string> result = await orchestration.InvokeAsync(input, runtime);
+OrchestrationResult<string[]> result = await orchestration.InvokeAsync(input, runtime);
 
 
 // Console Conversation
 // =====================================================================================
 #pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-string text = await result.GetValueAsync(TimeSpan.FromSeconds(30));
-Console.WriteLine($"\n# CHAT ORCHESTRATION RESULT: {text}");
+string[] texts = await result.GetValueAsync(TimeSpan.FromSeconds(30));
+Console.WriteLine($"\n# CONCURRENT ORCHESTRATION RESULT: {string.Join("\n\n", texts.Select(text => $"{text}"))}");
 Console.WriteLine("\n\nORCHESTRATION HISTORY: ");
 foreach (ChatMessageContent message in history)
 {

@@ -48,7 +48,7 @@ var kernel = kernelBuilder.Build();
 
 // Create Chat Completion Agents (Extra)
 // =====================================================================================
-ChatCompletionAgent chemistExpert =
+ChatCompletionAgent writerAgent =
     new()
     {
         Name = "ChemistExpert",
@@ -59,7 +59,7 @@ ChatCompletionAgent chemistExpert =
     };
 
 
-ChatCompletionAgent historianExpert =
+ChatCompletionAgent editorAgent =
     new()
     {
         Name = "HistorianExpert",
@@ -69,7 +69,7 @@ ChatCompletionAgent historianExpert =
         //Arguments = new KernelArguments(openAIPromptExecutionSettings)
     };
 
-ChatCompletionAgent engineeringExpert =
+ChatCompletionAgent publisherAgent =
     new()
     {
         Name = "EngineeringExpert",
@@ -95,7 +95,7 @@ ValueTask responseCallback(ChatMessageContent response)
 // Create a sequential orchestration
 // ---------------------------------------------------------------
 #pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-ConcurrentOrchestration orchestration = new(chemistExpert, historianExpert, engineeringExpert)
+ConcurrentOrchestration orchestration = new(writerAgent, editorAgent, publisherAgent)
 {
 
     ResponseCallback = responseCallback,

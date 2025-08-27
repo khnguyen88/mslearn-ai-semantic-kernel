@@ -92,7 +92,7 @@ ValueTask responseCallback(ChatMessageContent response)
 }
 
 
-// Create a sequential orchestration
+// Create a concurrent orchestration
 // ---------------------------------------------------------------
 #pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 ConcurrentOrchestration orchestration = new(chemistExpert, historianExpert, engineeringExpert)
@@ -101,6 +101,7 @@ ConcurrentOrchestration orchestration = new(chemistExpert, historianExpert, engi
     ResponseCallback = responseCallback,
 };
 #pragma warning restore SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+
 
 // Start the runtime
 // =====================================================================================
@@ -115,6 +116,8 @@ await runtime.StartAsync();
 Console.WriteLine("What topics do you want a group of expert perspective on?");
 string input = string.Empty;
 input = Console.ReadLine();
+
+
 // Invoke the orchestration
 // ====================================================================================
 #pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
@@ -138,6 +141,7 @@ foreach (ChatMessageContent message in history)
 #pragma warning disable SKEXP000
 
 }
+
 
 // Stop the Runtime
 // ====================================================================================

@@ -11,6 +11,9 @@ using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
 using System.ComponentModel;
 using Microsoft.SemanticKernel.Agents.Orchestration.Handoff;
 
+
+#pragma warning disable
+Console.Clear();
 // Install packages for Agent Orchestration
 // https://github.com/microsoft/semantic-kernel/issues/12453
 // dotnet add package Microsoft.SemanticKernel.Agents.Runtime.InProcess --prerelease
@@ -92,8 +95,6 @@ ChatCompletionAgent engineeringExpert =
 
 // Set Up Handoff Relationships
 // =====================================================================================
-#pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-
 var handoffs = OrchestrationHandoffs
     .StartWith(receiptionistHelper)
     .Add(receiptionistHelper, chemistExpert, historianExpert, engineeringExpert)
@@ -101,7 +102,6 @@ var handoffs = OrchestrationHandoffs
     .Add(historianExpert, receiptionistHelper, "Transfer to this agent if the issue is not history related.")
     .Add(engineeringExpert, receiptionistHelper, "Transfer to this agent if the issue is not engineering related.");
 
-#pragma warning restore SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
 // Manages chat history and develop callback to caputre agent responses
 // =====================================================================================
@@ -132,15 +132,15 @@ question = Console.ReadLine();
 
 // }
 
+
 // Create a handoff orchestration
 // =====================================================================================
-#pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 HandoffOrchestration orchestration = new HandoffOrchestration(handoffs, receiptionistHelper, chemistExpert, historianExpert, engineeringExpert)
 {
     //InteractiveCallback = interactiveCallback,
     ResponseCallback = responseCallback,
 };
-#pragma warning restore SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+
 
 // Start the runtime
 // =====================================================================================
@@ -148,33 +148,31 @@ HandoffOrchestration orchestration = new HandoffOrchestration(handoffs, receipti
 InProcessRuntime runtime = new InProcessRuntime();
 await runtime.StartAsync();
 
+
 // Invoke the orchestration
 // ====================================================================================
-#pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-
 //Console.WriteLine($"\n# INPUT: {input}\n");
 OrchestrationResult<string> result = await orchestration.InvokeAsync(question, runtime);
 
-#pragma warning restore SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
 // Console Conversation
 // =====================================================================================
-#pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 string ouput = await result.GetValueAsync(TimeSpan.FromSeconds(30));
 Console.WriteLine($"\n# CONCURRENT ORCHESTRATION RESULT: {ouput}");
 Console.WriteLine("\n\nORCHESTRATION HISTORY: ");
 foreach (ChatMessageContent message in history)
 {
-#pragma warning disable SKEXP000
     Console.WriteLine($"{message.Role} - {message.AuthorName}: ");
     Console.WriteLine($"{message.Content}");
     Console.WriteLine("\n");
-#pragma warning disable SKEXP000
-
 }
+
+
 // Stop the Runtime
 // ====================================================================================
 // After processing is complete, stop the runtime to clean up resources.
 await runtime.RunUntilIdleAsync();
 
 Console.WriteLine("\nChat session ended.");
+
+#pragma warning restore

@@ -2,9 +2,10 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Orchestration;
+using Microsoft.SemanticKernel.Agents.Orchestration.GroupChat;
 using Microsoft.SemanticKernel.Agents.Runtime.InProcess;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Agents.Orchestration.Handoff;
+using System.Security.Cryptography;
 
 #pragma warning disable
 Console.Clear();
@@ -47,12 +48,13 @@ var kernel = kernelBuilder.Build();
 
 // Create Chat Completion Agents (Extra)
 // =====================================================================================
-ChatCompletionAgent receiptionistHelper =
+
+ChatCompletionAgent physicistExpert =
     new()
     {
-        Name = "Receiptionist",
-        Instructions = "You are a receiptionist and generalist. You will try to handoff the questions to an expert that can best answer it. However, if there are no experts, then you must inform the users that there are no expert in our handoff group that can answer their question or request. Please apologize to them and request they answer another question. Before handhoff provide response of who your handing off the question too.",
-        Description = "A receiptionist in the handoff orchestration group.",
+        Name = "PhysicistExpert",
+        Instructions = "You are an expert in physics. You answer questions from a physicist's perspective.",
+        Description = "A physics expert in a group chat orchestration.",
         Kernel = kernel,
         //Arguments = new KernelArguments(openAIPromptExecutionSettings)
     };
@@ -61,8 +63,8 @@ ChatCompletionAgent chemistExpert =
     new()
     {
         Name = "ChemistExpert",
-        Instructions = "You are an expert in chemistry. You answer questions from a chemist's perspective. Before handhoff provide response of who your handing off the question to.",
-        Description = "A chemistry expert in the handoff orchestration group.",
+        Instructions = "You are an expert in chemistry. You answer questions from a chemist's perspective.",
+        Description = "A chemistry expert in a group chat orchestration.",
         Kernel = kernel,
         //Arguments = new KernelArguments(openAIPromptExecutionSettings)
     };
@@ -72,8 +74,8 @@ ChatCompletionAgent historianExpert =
     new()
     {
         Name = "HistorianExpert",
-        Instructions = "You are an expert in history. You answer questions from a historian's perspective. Before handhoff provide response of who your handing off the question to.",
-        Description = "A history expert in the handoff orchestration group.",
+        Instructions = "You are an expert in history. You answer questions from a historian's perspective.",
+        Description = "A history expert in a group chat orchestration.",
         Kernel = kernel.Clone(),
         //Arguments = new KernelArguments(openAIPromptExecutionSettings)
     };
@@ -82,24 +84,21 @@ ChatCompletionAgent engineeringExpert =
     new()
     {
         Name = "EngineeringExpert",
-        Instructions = "You are an expert in engineering. You answer questions from a engineer's perspective. Before handhoff provide response of who your handing off the question to.",
-        Description = "An engineering expert in the handoff orchestration group.",
+        Instructions = "You are an expert in engineering. You answer questions from a engineer's perspective.",
+        Description = "An engineering expert in a group chat orchestration.",
         Kernel = kernel.Clone(),
         //Arguments = new KernelArguments(openAIPromptExecutionSettings)
     };
 
-// Set Up Handoff Relationships
-// =====================================================================================
-
-
-var handoffs = OrchestrationHandoffs
-    .StartWith(receiptionistHelper)
-    .Add(receiptionistHelper, chemistExpert, historianExpert, engineeringExpert)
-    .Add(chemistExpert, receiptionistHelper, "Transfer to this agent if the issue is not chemistry related.")
-    .Add(historianExpert, receiptionistHelper, "Transfer to this agent if the issue is not history related.")
-    .Add(engineeringExpert, receiptionistHelper, "Transfer to this agent if the issue is not engineering related.");
-
-
+ChatCompletionAgent chatModerator =
+    new()
+    {
+        Name = "ChatGroupModerator",
+        Instructions = "You are the group moderator, after each feedback, you will ask the user if the have another interactive question? Ask the user to type 'E X I T' to leave",
+        Description = "A chemistry expert in a group chat orchestration.",
+        Kernel = kernel,
+        //Arguments = new KernelArguments(openAIPromptExecutionSettings)
+    };
 
 
 // Manages chat history and develop callback to caputre agent responses
@@ -108,7 +107,7 @@ var handoffs = OrchestrationHandoffs
 
 ChatHistory history = [];
 
-ValueTask responseCallback(ChatMessageContent response)
+ValueTask ResponseCallback(ChatMessageContent response)
 {
     Console.WriteLine();
     Console.WriteLine($"# {response.Role} - {response.AuthorName}: {response.Content}");
@@ -118,9 +117,9 @@ ValueTask responseCallback(ChatMessageContent response)
 }
 
 
-// Include human participants in handoff orchestration conversation with the InteractiveCallback
+// Include human participants in group chat orchestration conversation with the InteractiveCallback
 // =====================================================================================
-ValueTask<ChatMessageContent> interactiveCallback()
+ValueTask<ChatMessageContent> InteractiveCallback()
 {
     Console.WriteLine();
     Console.Write("What is your question: ");
@@ -133,15 +132,27 @@ ValueTask<ChatMessageContent> interactiveCallback()
 
 }
 
-// Create a handoff orchestration
+// Create a group chat manager
 // =====================================================================================
-
-HandoffOrchestration orchestration = new HandoffOrchestration(handoffs, receiptionistHelper, chemistExpert, historianExpert, engineeringExpert)
+CustomInteractiveGroupChatManager manager = new CustomInteractiveGroupChatManager
 {
-    InteractiveCallback = interactiveCallback,
-    ResponseCallback = responseCallback,
+    MaximumInvocationCount = 10,
+    InteractiveCallback = InteractiveCallback,
 };
 
+
+// Create a group chat orchestration
+// =====================================================================================
+GroupChatOrchestration orchestration = new GroupChatOrchestration(
+    manager,
+    physicistExpert,
+    chemistExpert,
+    historianExpert,
+    engineeringExpert,
+    chatModerator)
+{
+    ResponseCallback = ResponseCallback,
+};
 
 
 // Start the runtime
@@ -160,7 +171,6 @@ Console.WriteLine(initialPrompt);
 // Invoke the orchestration
 // ====================================================================================
 // Invoke the orchestration with the entire history.
-// The orchestration will internally decide who to hand off to.
 
 
 
@@ -172,7 +182,8 @@ OrchestrationResult<string> result = await orchestration.InvokeAsync(initialProm
 // Chat History Conversation End Results
 // =====================================================================================
 
-string output = await result.GetValueAsync(TimeSpan.FromSeconds(300));
+//string output = await result.GetValueAsync(TimeSpan.FromSeconds(300));
+string output = await result.GetValueAsync();
 Console.WriteLine($"\n# RESULT: {output}");
 Console.WriteLine("====================================");
 Console.WriteLine("\n");
@@ -196,4 +207,65 @@ Console.WriteLine("\nChat session ended.");
 // After processing is complete, stop the runtime to clean up resources.
 await runtime.RunUntilIdleAsync();
 
+#pragma warning restore
+
+
+
+// Note: Managers have some methods that can dictate the group chat
+
+//* ShouldRequestUserInput: Checks if user(human) input is required before the next agent speaks. If true, the orchestration pauses for user input. The user input is then added to the chat history of the manager and sent to all agents.
+//* ShouldTerminate: Determines if the group chat should end (for example, if a maximum number of rounds is reached or a custom condition is met). If true, the orchestration proceeds to result filtering.
+//* FilterResults: Called only if the chat is terminating, to summarize or process the final results of the conversation.
+//* SelectNextAgent: If the chat is not terminating, selects the next agent to respond in the conversation.
+
+#pragma warning disable
+sealed class CustomInteractiveGroupChatManager : RoundRobinGroupChatManager
+{
+    public override ValueTask<GroupChatManagerResult<bool>> ShouldRequestUserInput(ChatHistory history, CancellationToken cancellationToken = default)
+    {
+        // This is the custom logic. You can change it to fit your needs.
+        // For example, this will request user input if the last message content
+        // contains the word "interactive" or "human input".
+        bool shouldRequest =
+            (history.LastOrDefault()?.Content?.Contains("question", StringComparison.OrdinalIgnoreCase) ?? false) ||
+            (history.LastOrDefault()?.Content?.Contains("interactive", StringComparison.OrdinalIgnoreCase) ?? false);
+
+        if (shouldRequest)
+        {
+            return ValueTask.FromResult(new GroupChatManagerResult<bool>(true)
+            {
+                Reason = "The conversation requires human intervention."
+            });
+        }
+
+        // If your custom logic doesn't trigger, the default behavior is to not request input.
+        return ValueTask.FromResult(new GroupChatManagerResult<bool>(false)
+        {
+            Reason = "No user input required."
+        });
+
+
+        // Returning ValueTask.FromResult(new GroupChatManagerResult<bool>(true) prompt user interaction after an individual agent response. Behavior is different.
+    }
+
+    public override ValueTask<GroupChatManagerResult<bool>> ShouldTerminate(ChatHistory history, CancellationToken cancellationToken = default)
+    {
+        // This is the custom logic. You can change it to fit your needs.
+        bool shouldTerminate = history.LastOrDefault()?.Content?.Contains("EXIT", StringComparison.OrdinalIgnoreCase) ?? false;
+
+        if (shouldTerminate)
+        {
+            return ValueTask.FromResult(new GroupChatManagerResult<bool>(true)
+            {
+                Reason = "The conversation should be terminated."
+            });
+        }
+
+        // If your custom logic doesn't trigger, the default behavior is to not request input.
+        return ValueTask.FromResult(new GroupChatManagerResult<bool>(false)
+        {
+            Reason = "The conversation will still continue."
+        });
+    }
+}
 #pragma warning restore

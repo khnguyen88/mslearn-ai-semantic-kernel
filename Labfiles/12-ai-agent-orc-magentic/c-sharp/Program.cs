@@ -69,7 +69,7 @@ ChatCompletionAgent mathematicianAgent =
     new()
     {
         Name = "MathematicianAgent",
-        Instructions = "Take a user mathematical equation and solve for the problem",
+        Instructions = "Take a user mathematical equation and solve for the problem. You will provide no coding assistance at all. Leave that responsibility to another agent.",
         Description = "You solve the questions using math. You will check and provide feedback to the coder to make sure their code interpretation of the formula is valid.",
         Kernel = kernel,
         //Arguments = new KernelArguments(openAIPromptExecutionSettings)
@@ -109,6 +109,8 @@ ValueTask ResponseCallback(ChatMessageContent response)
     Console.WriteLine($"# {response.Role} - {response.AuthorName}: {response.Content}");
     Console.WriteLine();
     history.Add(response);
+
+    
     return ValueTask.CompletedTask;
 }
 
@@ -129,7 +131,6 @@ ValueTask<ChatMessageContent> InteractiveCallback()
 }
 
 
-
 // Create a group chat manager
 // =====================================================================================
 Kernel managerKernel = kernel.Clone();
@@ -139,7 +140,7 @@ StandardMagenticManager manager = new StandardMagenticManager(
     new OpenAIPromptExecutionSettings())
 {
     MaximumInvocationCount = 5,
-    InteractiveCallback = InteractiveCallback,
+    InteractiveCallback = InteractiveCallback, //Not working currently!
 };
 
 
@@ -165,7 +166,7 @@ await runtime.StartAsync();
 
 // Provide the initial prompt;
 // ====================================================================================
-string initialPrompt = "I need to convert a mathmathical equation into code, can you help me? Write an equation for dot matrices multiplication. [1,2,3] * [4,5,6] = X ";
+string initialPrompt = "I need to convert a mathematical equation into code, can you help me? Write an equation for dot matrices multiplication. [1,2,3] * [4,5,6] = X ";
 Console.WriteLine(initialPrompt);
 
 
@@ -173,6 +174,7 @@ Console.WriteLine(initialPrompt);
 // ====================================================================================
 // Invoke the orchestration with the entire history.
 OrchestrationResult<string> result = await orchestration.InvokeAsync(initialPrompt, runtime);
+
 
 
 // Chat History Conversation End Results
@@ -200,65 +202,4 @@ Console.WriteLine("\nChat session ended.");
 // ====================================================================================
 // After processing is complete, stop the runtime to clean up resources.
 await runtime.RunUntilIdleAsync();
-#pragma warning restore
-
-
-
-// Note: Managers have some methods that can dictate the group chat
-
-//* ShouldRequestUserInput: Checks if user(human) input is required before the next agent speaks. If true, the orchestration pauses for user input. The user input is then added to the chat history of the manager and sent to all agents.
-//* ShouldTerminate: Determines if the group chat should end (for example, if a maximum number of rounds is reached or a custom condition is met). If true, the orchestration proceeds to result filtering.
-//* FilterResults: Called only if the chat is terminating, to summarize or process the final results of the conversation.
-//* SelectNextAgent: If the chat is not terminating, selects the next agent to respond in the conversation.
-
-#pragma warning disable
-sealed class CustomInteractiveGroupChatManager : RoundRobinGroupChatManager
-{
-    public override ValueTask<GroupChatManagerResult<bool>> ShouldRequestUserInput(ChatHistory history, CancellationToken cancellationToken = default)
-    {
-        // This is the custom logic. You can change it to fit your needs.
-        // For example, this will request user input if the last message content
-        // contains the word "interactive" or "human input".
-        bool shouldRequest =
-            (history.LastOrDefault()?.Content?.Contains("question", StringComparison.OrdinalIgnoreCase) ?? false) ||
-            (history.LastOrDefault()?.Content?.Contains("interactive", StringComparison.OrdinalIgnoreCase) ?? false);
-
-        if (shouldRequest)
-        {
-            return ValueTask.FromResult(new GroupChatManagerResult<bool>(true)
-            {
-                Reason = "The conversation requires human intervention."
-            });
-        }
-
-        // If your custom logic doesn't trigger, the default behavior is to not request input.
-        return ValueTask.FromResult(new GroupChatManagerResult<bool>(false)
-        {
-            Reason = "No user input required."
-        });
-
-
-        // Returning ValueTask.FromResult(new GroupChatManagerResult<bool>(true) prompt user interaction after an individual agent response. Behavior is different.
-    }
-
-    public override ValueTask<GroupChatManagerResult<bool>> ShouldTerminate(ChatHistory history, CancellationToken cancellationToken = default)
-    {
-        // This is the custom logic. You can change it to fit your needs.
-        bool shouldTerminate = history.LastOrDefault()?.Content?.Contains("EXIT", StringComparison.OrdinalIgnoreCase) ?? false;
-
-        if (shouldTerminate)
-        {
-            return ValueTask.FromResult(new GroupChatManagerResult<bool>(true)
-            {
-                Reason = "The conversation should be terminated."
-            });
-        }
-
-        // If your custom logic doesn't trigger, the default behavior is to not request input.
-        return ValueTask.FromResult(new GroupChatManagerResult<bool>(false)
-        {
-            Reason = "The conversation will still continue."
-        });
-    }
-}
 #pragma warning restore

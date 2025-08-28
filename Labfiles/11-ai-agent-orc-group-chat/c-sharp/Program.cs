@@ -171,12 +171,7 @@ Console.WriteLine(initialPrompt);
 // Invoke the orchestration
 // ====================================================================================
 // Invoke the orchestration with the entire history.
-
-
-
 OrchestrationResult<string> result = await orchestration.InvokeAsync(initialPrompt, runtime);
-
-
 
 
 // Chat History Conversation End Results
@@ -197,8 +192,6 @@ foreach (ChatMessageContent message in history)
     Console.WriteLine();
 }
 
-
-
 Console.WriteLine("\nChat session ended.");
 
 
@@ -206,7 +199,6 @@ Console.WriteLine("\nChat session ended.");
 // ====================================================================================
 // After processing is complete, stop the runtime to clean up resources.
 await runtime.RunUntilIdleAsync();
-
 #pragma warning restore
 
 

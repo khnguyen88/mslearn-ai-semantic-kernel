@@ -49,11 +49,5 @@ namespace new_sk_labs.Steps
             return this._state;
         }
     }
-
-    public class RequestContentState
-    {
-        public string LastGeneratedDocument { get; set; } = "";
-        public ChatHistory? ChatHistory { get; set; }
-    }
 }
 #pragma warning disable

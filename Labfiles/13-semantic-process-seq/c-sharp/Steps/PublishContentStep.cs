@@ -52,7 +52,7 @@ namespace new_sk_labs.Steps
             this._state!.Content = response.Result;
 
             //Note: EmitEventAsync() not needed unless we want to create a loopback or condiitonal process
-            //await context.EmitEventAsync(new() { Id = "WriteContentComplete", Data = this._state, Visibility = KernelProcessEventVisibility.Public });
+            //await context.EmitEventAsync(new() { Id = "PublishContentComplete", Data = this._state, Visibility = KernelProcessEventVisibility.Public });
 
             return this._state;
         }

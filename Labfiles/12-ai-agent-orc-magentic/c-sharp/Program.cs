@@ -80,8 +80,18 @@ ChatCompletionAgent coderAgent =
     new()
     {
         Name = "CoderAgent",
-        Instructions = "Write and executes code to process and analyze data.",
+        Instructions = "Write and executes code (a method) to process and analyze data.",
         Description = "You solve questions using code. Please provide detailed analysis and computation process.You will check with the researcher to see if the results of your code will match the mathematician's answer.",
+        Kernel = kernel.Clone(),
+        //Arguments = new KernelArguments(openAIPromptExecutionSettings)
+    };
+
+ChatCompletionAgent testAgent =
+    new()
+    {
+        Name = "TestAgent",
+        Instructions = "Write and executes test code to validate the method created. Write the test after the coder agent to validate their method.",
+        Description = "You solve questions using code Write test after the coder agent. Please provide detailed analysis and computation process.You will check with the researcher to see if the results of your code will match the mathematician's answer.",
         Kernel = kernel.Clone(),
         //Arguments = new KernelArguments(openAIPromptExecutionSettings)
     };
@@ -150,10 +160,11 @@ MagenticOrchestration orchestration = new MagenticOrchestration(
     manager,
     researchAgent,
     mathematicianAgent,
+    testAgent,
     coderAgent
 )
 {
-    ResponseCallback = ResponseCallback
+    ResponseCallback = ResponseCallback,
 };
 
 

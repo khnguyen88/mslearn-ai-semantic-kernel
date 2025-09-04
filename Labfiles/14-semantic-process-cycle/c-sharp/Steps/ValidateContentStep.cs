@@ -35,12 +35,13 @@ namespace new_sk_labs.Steps
         [KernelFunction(Functions.ValidateContent)]
         public async ValueTask ValidateContentAsync(KernelProcessStepContext context, ContentProcessResults content)
         {
-            Console.WriteLine("Step 3 - Let's validate the content before it is published...\n");
-            Console.WriteLine("");
+            Console.WriteLine();
+            Console.WriteLine("Step 3 - Let's validate the content before it is published...");
             Console.WriteLine("Do you like the current content? Answer with only 'YES 'or 'NO'");
 
 
-            this._state = content;
+            this._state!.StoryRequest = content.StoryRequest;
+            this._state!.Content = content.Content;
 
             string input = string.Empty;
             bool conditionalCheck = false;
@@ -65,22 +66,23 @@ namespace new_sk_labs.Steps
                     input = Console.ReadLine();
                     Console.WriteLine("");
 
-                    conditionalCheck = input.Contains("REVISE") || input.Contains("NEW");
+                    conditionalCheck2 = input.Contains("REVISE") || input.Contains("NEW");
                 }
-                while (!conditionalCheck);
+                while (!conditionalCheck2);
 
                 if (input.Contains("REVISE"))
                 {
-                    await context.EmitEventAsync(new() { Id = Events.ReviseContent, Data = content, Visibility = KernelProcessEventVisibility.Public });
+                    await context.EmitEventAsync(new() { Id = Events.ReviseContent, Data = this._state, Visibility = KernelProcessEventVisibility.Public });
+
                 }
                 else
                 {
-                    await context.EmitEventAsync(new() { Id = Events.RedoContent, Data = null, Visibility = KernelProcessEventVisibility.Public });
+                    await context.EmitEventAsync(new() { Id = Events.RedoContent, Data = this._state, Visibility = KernelProcessEventVisibility.Public });
                 }
             }
             else
             {
-                await context.EmitEventAsync(new() { Id = Events.ApproveContent, Data = content, Visibility = KernelProcessEventVisibility.Public });
+                await context.EmitEventAsync(new() { Id = Events.ApproveContent, Data = this._state, Visibility = KernelProcessEventVisibility.Public });
             }
         }
     }

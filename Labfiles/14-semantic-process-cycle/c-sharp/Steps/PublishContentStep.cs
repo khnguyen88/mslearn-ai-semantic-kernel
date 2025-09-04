@@ -46,7 +46,7 @@ namespace new_sk_labs.Steps
                 description: "You are a copy editor and publisher who improve the writer content for a blog");
 
             var agentThead = AgentHelper.CreateChatHistoryAgentThread();
-            string initPrompt = $"Here is the content from the writer: \n {content}";
+            string initPrompt = $"Here is the content from the writer: \n {content.Content}";
             var response = AgentHelper.GetAgentResponseAsync(agent, agentThead, initPrompt);
 
             this._state!.Content = response.Result;

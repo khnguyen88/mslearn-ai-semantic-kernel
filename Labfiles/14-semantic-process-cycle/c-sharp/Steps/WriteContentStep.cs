@@ -53,8 +53,8 @@ namespace new_sk_labs.Steps
                 kernel,
                 kernelArguments,
                 name: "WriterAgent",
-                instruction: "You are a writer who will write informative facts about any topics of your choosing or one that is epcified by the user, if the subject or topic is provided.",
-                description: "You are a writer who write informative content and story.");
+                instruction: "You are a writer who will write informative facts about any topics of your choosing or one story specified by the user, if the subject or topic is provided. You write only factual content or story content, but not both.",
+                description: "You are a writer who write informative content and/oe story.");
 
             var agentThead = AgentHelper.CreateChatHistoryAgentThread();
             string initPrompt = request.StoryRequest;
@@ -65,7 +65,7 @@ namespace new_sk_labs.Steps
         }
 
         [KernelFunction(Functions.ReviseContent)]
-        public async ValueTask ReviseContentAsync(KernelProcessStepContext context, ContentProcessResults request)
+        public async ValueTask ReviseContentAsync(KernelProcessStepContext context, ContentProcessResults content)
         {
             Console.WriteLine("Step 3a - Revising content for a specific request ...\n");
 
@@ -79,11 +79,11 @@ namespace new_sk_labs.Steps
                 kernel,
                 kernelArguments,
                 name: "EditorAgent",
-                instruction: $"You are an editor and tasked to rewrite and a content you just wrote. The subject prompt was {request.StoryRequest}. \n The original content is `{request.Content}`.",
+                instruction: $"You are an editor and tasked to rewrite and a content you just wrote. \n The subject prompt was {content.StoryRequest}. \n The original content is `{content.Content}`.",
                 description: "You are an enditor tasked rewrite the content just provided to you.");
 
             var agentThead = AgentHelper.CreateChatHistoryAgentThread();
-            string initPrompt = request.Content;
+            string initPrompt = content.Content;
             var response = AgentHelper.GetAgentResponseAsync(agent, agentThead, initPrompt);
 
             this._state!.Content = response.Result;

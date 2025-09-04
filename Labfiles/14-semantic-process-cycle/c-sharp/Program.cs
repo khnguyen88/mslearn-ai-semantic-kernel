@@ -83,7 +83,7 @@ public class Program
             // =====================================================================================
             var requestContentStep = processBuilder.AddStepFromType<RequestContentStep>();
             var writeContentStep = processBuilder.AddStepFromType<WriteContentStep>();
-            //var validateContentStep = processBuilder.AddMapStepFromType<ValidateContentStep>();
+            var validateContentStep = processBuilder.AddStepFromType<ValidateContentStep>();
             var publishContentStep = processBuilder.AddStepFromType<PublishContentStep>();
 
 
@@ -113,44 +113,45 @@ public class Program
                 .OnEvent(WriteContentStep.Events.WriteContentComplete)
                 .SendEventTo(
                     new ProcessFunctionTargetBuilder(
-                        publishContentStep,
-                        functionName: PublishContentStep.Functions.PublishContent,
+                        validateContentStep,
+                        functionName: ValidateContentStep.Functions.ValidateContent,
                         parameterName: "content"
                     ));
 
-            //writeContentStep
-            //    .OnFunctionResult(WriteContentStep.Functions.WriteContent) // If a process step has multiple functions, you what to specify functions the prior step in invoking or sending data too. 
-            //    .SendEventTo(
-            //        new ProcessFunctionTargetBuilder(
-            //            validateContentStep,
-            //            functionName: ValidateContentStep.Functions.ValidateContent,
-            //            parameterName: "content"
-            //        ));
+            writeContentStep
+                .OnEvent(WriteContentStep.Events.WriteContentRevise)
+                .SendEventTo(
+                    new ProcessFunctionTargetBuilder(
+                        validateContentStep,
+                        functionName: ValidateContentStep.Functions.ValidateContent,
+                        parameterName: "content"
+                    ));
 
-            //validateContentStep
-            //    .OnEvent(ValidateContentStep.Events.RedoContent)
-            //    .SendEventTo(
-            //        new ProcessFunctionTargetBuilder(
-            //            requestContentStep,
-            //            functionName: RequestContentStep.Functions.RequestContent
-            //    ));
+            validateContentStep
+                .OnEvent(ValidateContentStep.Events.RedoContent)
+                .SendEventTo(
+                    new ProcessFunctionTargetBuilder(
+                        requestContentStep,
+                        functionName: RequestContentStep.Functions.RequestContent
+                ));
 
-            //validateContentStep
-            //    .OnEvent(ValidateContentStep.Events.ReviseContent)
-            //    .SendEventTo(
-            //        new ProcessFunctionTargetBuilder(
-            //            writeContentStep,
-            //            functionName: WriteContentStep.Functions.ReviseContent,
-            //            parameterName: "content"
-            //    ));
+            validateContentStep
+                .OnEvent(ValidateContentStep.Events.ReviseContent)
+                .SendEventTo(
+                    new ProcessFunctionTargetBuilder(
+                        writeContentStep,
+                        functionName: WriteContentStep.Functions.ReviseContent,
+                        parameterName: "content"
+                ));
 
-            //validateContentStep
-            //    .OnEvent(ValidateContentStep.Events.ApproveContent)
-            //    .SendEventTo(
-            //        new ProcessFunctionTargetBuilder(
-            //            publishContentStep,
-            //            functionName: PublishContentStep.Functions.PublishContent,
-            //            parameterName: "content"));
+            validateContentStep
+                .OnEvent(ValidateContentStep.Events.ApproveContent)
+                .SendEventTo(
+                    new ProcessFunctionTargetBuilder(
+                        publishContentStep,
+                        functionName: PublishContentStep.Functions.PublishContent,
+                        parameterName: "content"
+            ));
 
             publishContentStep
                 .OnFunctionResult()

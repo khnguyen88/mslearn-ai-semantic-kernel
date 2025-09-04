@@ -19,7 +19,7 @@ namespace new_sk_labs.Steps
 
         public static class Functions
         {
-            public const string PublishContent = nameof(EditContentStep);
+            public const string PublishContent = nameof(PublishContentStep);
         }
 
         public override ValueTask ActivateAsync(KernelProcessStepState<ContentProcessResults> state)
@@ -31,7 +31,7 @@ namespace new_sk_labs.Steps
         [KernelFunction(Functions.PublishContent)]
         public async ValueTask<ContentProcessResults> PublisContentAsync(KernelProcessStepContext context, ContentProcessResults content)
         {
-            Console.WriteLine("Step 3 - Doing Yet More Work...\n");
+            Console.WriteLine("Step 4 - Let's finalize the content into a markdown format...\n");
 
             Kernel kernel = KernelHelper.BuildKernel();
 

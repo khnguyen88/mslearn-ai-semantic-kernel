@@ -22,6 +22,13 @@ namespace new_sk_labs.Steps
         public static class Functions
         {
             public const string WriteContent = nameof(WriteContentStep);
+            public const string ReviseContent = nameof(ReviseContent);
+        }
+
+        public static class Events
+        {
+            public const string WriteContentComplete = nameof(WriteContentComplete);
+            public const string WriteContentRevise = nameof(WriteContentRevise);
         }
 
         public override ValueTask ActivateAsync(KernelProcessStepState<ContentProcessResults> state)
@@ -31,9 +38,10 @@ namespace new_sk_labs.Steps
         }
 
         [KernelFunction(Functions.WriteContent)]
-        public async ValueTask<ContentProcessResults> WriteContentAsync(KernelProcessStepContext context, ContentProcessResults request) 
+        public async ValueTask WriteContentAsync(KernelProcessStepContext context, ContentProcessResults request) 
         {
             Console.WriteLine("Step 2 - Writing content for a specific request ...\n");
+            Console.WriteLine(request.StoryRequest);
 
             Kernel kernel = KernelHelper.BuildKernel();
             kernel.ImportPluginFromType<WriterPlugin>();
@@ -46,15 +54,40 @@ namespace new_sk_labs.Steps
                 kernelArguments,
                 name: "WriterAgent",
                 instruction: "You are a writer who will write informative facts about any topics of your choosing or one that is epcified by the user, if the subject or topic is provided.",
-                description: "Your or a information writer about general topics");
+                description: "You are a writer who write informative content and story.");
+
+            var agentThead = AgentHelper.CreateChatHistoryAgentThread();
+            string initPrompt = request.StoryRequest;
+            var response = AgentHelper.GetAgentResponseAsync(agent, agentThead, initPrompt);
+
+            this._state!.Content = response.Result;
+            await context.EmitEventAsync(new() { Id = Events.WriteContentComplete, Data = this._state, Visibility = KernelProcessEventVisibility.Public });
+        }
+
+        [KernelFunction(Functions.ReviseContent)]
+        public async ValueTask ReviseContentAsync(KernelProcessStepContext context, ContentProcessResults request)
+        {
+            Console.WriteLine("Step 3a - Revising content for a specific request ...\n");
+
+            Kernel kernel = KernelHelper.BuildKernel();
+            kernel.ImportPluginFromType<WriterPlugin>();
+
+            var kernelExecutionSettings = KernelHelper.GetDefaultOpenAIPromptExecutionSettings();
+            var kernelArguments = KernelHelper.BuildKernelArguments(kernelExecutionSettings);
+
+            ChatCompletionAgent agent = AgentHelper.BuildAgent(
+                kernel,
+                kernelArguments,
+                name: "EditorAgent",
+                instruction: $"You are an editor and tasked to rewrite and a content you just wrote. The subject prompt was {request.StoryRequest}. \n The original content is `{request.Content}`.",
+                description: "You are an enditor tasked rewrite the content just provided to you.");
 
             var agentThead = AgentHelper.CreateChatHistoryAgentThread();
             string initPrompt = request.Content;
             var response = AgentHelper.GetAgentResponseAsync(agent, agentThead, initPrompt);
 
             this._state!.Content = response.Result;
-            await context.EmitEventAsync(new() { Id = "WriteContentComplete", Data = this._state, Visibility = KernelProcessEventVisibility.Public });
-            return this._state;
+            await context.EmitEventAsync(new() { Id = Events.WriteContentRevise, Data = this._state, Visibility = KernelProcessEventVisibility.Public });
         }
     }
 }

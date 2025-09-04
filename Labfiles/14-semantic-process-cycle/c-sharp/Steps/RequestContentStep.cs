@@ -25,6 +25,13 @@ namespace new_sk_labs.Steps
             public const string RequestContent = nameof(RequestContentStep);
         }
 
+        public static class Events
+        {
+            public const string RequestComplete = nameof(RequestComplete);
+            public const string RequestCancelled = nameof(RequestCancelled);
+
+        }
+
         public override ValueTask ActivateAsync(KernelProcessStepState<ContentProcessResults> state)
         {
             _state = state.State;
@@ -32,7 +39,7 @@ namespace new_sk_labs.Steps
         }
 
         [KernelFunction(Functions.RequestContent)]
-        public async ValueTask<ContentProcessResults> RequestContentAsync(KernelProcessStepContext context)
+        public async Task RequestContentAsync(KernelProcessStepContext context)
         {
             Console.WriteLine("Step 1 - Requesting content subject...\n");
             Console.WriteLine("");
@@ -41,16 +48,16 @@ namespace new_sk_labs.Steps
             input = Console.ReadLine();
             Console.WriteLine("");
 
-            this._state!.Content = input;
-            await context.EmitEventAsync(new() { Id = "WriteContentComplete", Data = this._state, Visibility = KernelProcessEventVisibility.Public });
-            return this._state;
-        }
-    }
+            if (input.Contains("EXIT") || input.Contains("CANCEL")) {
+                await context.EmitEventAsync(new() { Id = Events.RequestCancelled, Data = null, Visibility = KernelProcessEventVisibility.Public });
+            }
+            else
+            {
+                this._state!.StoryRequest = input;
+                await context.EmitEventAsync(new() { Id = Events.RequestComplete, Data = this._state, Visibility = KernelProcessEventVisibility.Public });
+            }
 
-    public class RequestContentState
-    {
-        public string LastGeneratedDocument { get; set; } = "";
-        public ChatHistory? ChatHistory { get; set; }
+        }
     }
 }
 #pragma warning disable

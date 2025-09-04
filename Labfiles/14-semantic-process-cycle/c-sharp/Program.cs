@@ -154,7 +154,7 @@ public class Program
             ));
 
             publishContentStep
-                .OnFunctionResult()
+                .OnFunctionResult() // Note: if a step contains multiple semantic functions, you need to specify one in the argument. Else you can leave it as is.
                 .StopProcess();
 
 

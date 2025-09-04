@@ -43,34 +43,17 @@ namespace new_sk_labs.Steps
             this._state!.StoryRequest = content.StoryRequest;
             this._state!.Content = content.Content;
 
-            string input = string.Empty;
+            string input = GetValidatedInput("YES", "NO");
             bool conditionalCheck = false;
 
-            do {
-                input = Console.ReadLine();
-                Console.WriteLine("");
-
-                conditionalCheck = input.Contains("YES") || input.Contains("NO");
-            }
-            while (!conditionalCheck);
-
-            if (input.Contains("NO"))
+            if (input.Equals("NO", StringComparison.OrdinalIgnoreCase))
             {
                 Console.WriteLine("");
                 Console.WriteLine("Do you wish to revise the current content or write a new one? Answer with only 'REVISE' or 'NEW'");
-                string input2 = string.Empty;
-                bool conditionalCheck2 = false;
+                string input2 = GetValidatedInput("REVISE", "NEW");
 
-                do
-                {
-                    input = Console.ReadLine();
-                    Console.WriteLine("");
 
-                    conditionalCheck2 = input.Contains("REVISE") || input.Contains("NEW");
-                }
-                while (!conditionalCheck2);
-
-                if (input.Contains("REVISE"))
+                if (input2.Equals("REVISE", StringComparison.OrdinalIgnoreCase))
                 {
                     await context.EmitEventAsync(new() { Id = Events.ReviseContent, Data = this._state, Visibility = KernelProcessEventVisibility.Public });
 
@@ -84,6 +67,25 @@ namespace new_sk_labs.Steps
             {
                 await context.EmitEventAsync(new() { Id = Events.ApproveContent, Data = this._state, Visibility = KernelProcessEventVisibility.Public });
             }
+        }
+
+        private static string GetValidatedInput(string option1, string option2)
+        {
+            string input;
+            bool isValid;
+            do
+            {
+                input = Console.ReadLine()?.Trim().ToUpper() ?? string.Empty;
+                isValid = input.Equals(option1.ToUpper()) || input.Equals(option2.ToUpper());
+
+                if (!isValid)
+                {
+                    Console.WriteLine($"\nInvalid input. Please answer with only '{option1.ToUpper()}' or '{option2.ToUpper()}'.");
+                }
+            }
+            while (!isValid);
+
+            return input;
         }
     }
 }

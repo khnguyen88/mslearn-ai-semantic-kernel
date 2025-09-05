@@ -1,0 +1,5 @@
+This is a small file that contains simple facts that can be indexed by KernelMemory.
+
+KernelMemory is awesome and supports many different AI models and providers as well as a wide variety of deployment options and vector stores.
+
+It's currently Matt Eland's favorite way to index and search documents in the .NET Ecosystem because of its flexibility.

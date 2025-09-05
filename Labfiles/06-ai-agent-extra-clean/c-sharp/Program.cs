@@ -139,7 +139,8 @@ do
     }
     var message = new ChatMessageContent(AuthorRole.User, input); //Add user message to conversation
 
-    //Alternative to InvokeStreamingAsync() is just InvokeAsync() and to access the last response, it will just be `response.Message.Content`
+    //Alternative to InvokeStreamingAsync() is just InvokeAsync() and to access the last response, it will just be `response.Last().Message.Content`
+    //If you are using InvokeAsync(). To access the last result it would be `response.ToArrayAsync().Result.Last().Message.Content`
     await foreach (StreamingChatMessageContent response in devOpAgent.InvokeStreamingAsync(message, agentThread))
     {
         Console.Write($"{response.Content}"); // Stream to console

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36401.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "semantic-process-seq", "semantic-process-seq.csproj", "{3EC2D741-9B4D-6EB1-43C9-0EC65F5590FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "semantic-process-cycle", "semantic-process-cycle.csproj", "{3EC2D741-9B4D-6EB1-43C9-0EC65F5590FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

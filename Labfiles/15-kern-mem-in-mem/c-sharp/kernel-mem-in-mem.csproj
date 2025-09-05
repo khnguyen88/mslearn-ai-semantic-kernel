@@ -23,8 +23,6 @@
     <PackageReference Include="Microsoft.KernelMemory.AI.OpenAI" Version="0.98.250508.3" />
     <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.98.250508.3" />
     <PackageReference Include="Microsoft.KernelMemory.MemoryDb.AzureAISearch" Version="0.98.250508.3" />
-    <PackageReference Include="Microsoft.ML.Tokenizers" Version="1.0.2" />
-    <PackageReference Include="Microsoft.ML.Tokenizers.Data.O200kBase" Version="1.0.2" />
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.63.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.63.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Agents.Magentic" Version="1.63.0-preview" />
@@ -34,9 +32,10 @@
     <PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.47.0" />
     <PackageReference Include="Spectre.Console" Version="0.50.0" />
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="docs\" />
+	  <Content Include="docs\**" />
+	  <None Update="docs\**">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
   </ItemGroup>
-
 </Project>

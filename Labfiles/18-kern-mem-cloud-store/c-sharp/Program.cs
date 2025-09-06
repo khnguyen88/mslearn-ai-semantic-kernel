@@ -105,17 +105,14 @@ AzureBlobsConfig azureBlobsConfig = new()
 
 
 IKernelMemoryBuilder memoryBuilder = new KernelMemoryBuilder()
-    //.WithSimpleFileStorage(new SimpleFileStorageConfig { StorageType = FileSystemTypes.Disk }) // Allows local persistent storage (in the bin folder)
-    //.WithSimpleVectorDb(new SimpleVectorDbConfig {StorageType = FileSystemTypes.Disk }) // Allow local persistent storage (in the bin folder)
+    //.WithSimpleFileStorage(new SimpleFileStorageConfig { StorageType = FileSystemTypes.Disk }) // Allows local persistent storage (in the bin folder). Only do one type.
+    //.WithSimpleVectorDb(new SimpleVectorDbConfig {StorageType = FileSystemTypes.Disk }) // Allow local persistent storage (in the bin folder). Only do one type.
     .WithAzureOpenAITextGeneration(textAzureOpenAIConfig)
     .WithAzureOpenAITextEmbeddingGeneration(embeddingAzureOpenAIConfig)
     .WithAzureAISearchMemoryDb(azureAISearchConfig)
     .WithAzureBlobsDocumentStorage(azureBlobsConfig);
 
 IKernelMemory memory = memoryBuilder.Build();
-
-//NOTE: Further research is required below: https://github.com/microsoft/kernel-memory/issues/203
-//IKernelMemory memory = memoryBuilder.Build(new KernelMemoryBuilderBuildOptions { AllowMixingVolatileAndPersistentData = true }); //Temp to resolve warning. Need to investigate a bit more
 
 // Create a kernel builder with Azure OpenAI chat completion (Extra)
 // ---------------------------------------------------------------
@@ -381,3 +378,5 @@ void PrintKernelMemoryCitation(MemoryAnswer answer)
     Console.WriteLine();
 }
 #pragma warning restore
+
+//TODO: Explore how we can control document clean-up, partitioning, and embedding. Creating our own custom pipeline for this process but give us better control of our results

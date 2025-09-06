@@ -2,6 +2,9 @@
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.KernelMemory;
+using Microsoft.KernelMemory.DocumentStorage.DevTools;
+using Microsoft.KernelMemory.FileSystem.DevTools;
+using Microsoft.KernelMemory.MemoryStorage.DevTools;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
@@ -20,7 +23,7 @@ Console.Clear();
 // dotnet add package Microsoft.KernelMemory.MemoryDb.AzureAISearch
 // dotnet add package Spectre.Console
 // dotnet add package Microsoft.KernelMemory.AI.OpenAI
-
+// dotnet add package Microsoft.KernelMemory.DocumentStorage.AzureBlobs
 
 // Kernel Memory
 // Requires a LLM Model - In this example we used the deployed "gpt-4o-mini" model from Azure. Used to ask questions and retrieve answers.
@@ -56,6 +59,11 @@ string embeddingApiKey = config["AzureAIFoundry:AIEmbedding:ApiKey"]!;
 string searchEndpoint = config["AzureAIFoundry:AISearch:Uri"]!;
 string searchApiKey = config["AzureAIFoundry:AISearch:ApiKey"]!;
 
+string blobStorageAccount = config["AzureAIFoundry:AzureBlobStorage:AccountName"]!;
+string blobStorageContainerName = config["AzureAIFoundry:AzureBlobStorage:ContainerName"]!;
+string blobStorageEndpoint = config["AzureAIFoundry:AzureBlobStorage:Uri"]!;
+string blobStorageKey = config["AzureAIFoundry:AzureBlobStorage:ApiKey"]!;
+
 
 // Create a kernel memory builder and memory with Azure OpenAI
 // =====================================================================================
@@ -87,13 +95,27 @@ AzureAISearchConfig azureAISearchConfig = new()
     Auth = AzureAISearchConfig.AuthTypes.APIKey
 };
 
+AzureBlobsConfig azureBlobsConfig = new()
+{
+    Account = blobStorageAccount,
+    AccountKey = blobStorageKey,
+    Container = blobStorageContainerName,
+    Auth = AzureBlobsConfig.AuthTypes.AccountKey,
+};
+
 
 IKernelMemoryBuilder memoryBuilder = new KernelMemoryBuilder()
+    //.WithSimpleFileStorage(new SimpleFileStorageConfig { StorageType = FileSystemTypes.Disk }) // Allows local persistent storage (in the bin folder)
+    //.WithSimpleVectorDb(new SimpleVectorDbConfig {StorageType = FileSystemTypes.Disk }) // Allow local persistent storage (in the bin folder)
     .WithAzureOpenAITextGeneration(textAzureOpenAIConfig)
-    .WithAzureOpenAITextEmbeddingGeneration(embeddingAzureOpenAIConfig);
+    .WithAzureOpenAITextEmbeddingGeneration(embeddingAzureOpenAIConfig)
+    .WithAzureAISearchMemoryDb(azureAISearchConfig)
+    .WithAzureBlobsDocumentStorage(azureBlobsConfig);
 
 IKernelMemory memory = memoryBuilder.Build();
 
+//NOTE: Further research is required below: https://github.com/microsoft/kernel-memory/issues/203
+//IKernelMemory memory = memoryBuilder.Build(new KernelMemoryBuilderBuildOptions { AllowMixingVolatileAndPersistentData = true }); //Temp to resolve warning. Need to investigate a bit more
 
 // Create a kernel builder with Azure OpenAI chat completion (Extra)
 // ---------------------------------------------------------------
@@ -117,10 +139,10 @@ ChatCompletionAgent devAgent =
 // =====================================================================================
 ChatHistoryAgentThread agentThread = new();
 
-
 // Feed the kernel memory documents and texts
 // =====================================================================================
 //Based on persistent and cloud version, it appears running the memory will just override the document given the documentId.
+
 
 var docId = await memory.ImportTextAsync(
     text: "Khiem had a cat name Benzi. She was a calico", 
@@ -246,7 +268,7 @@ await memory.ImportWebPageAsync(
     }
 );
 
-// await memory.DeleteDocumentAsync("reddit-dinosaur"); //Allows you to delete data based on document Id
+//await memory.DeleteDocumentAsync("reddit-dinosaur"); //Allows you to delete data based on document Id
 
 
 // Search Kernel Memory API
@@ -283,7 +305,7 @@ Console.WriteLine("----");
 MemoryAnswer answer = await memory.AskAsync(question);
 Console.WriteLine(answer.Result);
 Console.WriteLine();
-PrintCitation(answer);
+PrintKernelMemoryCitation(answer);
 
 string question2 = "Who and what is Tom?";
 Console.WriteLine(question2);
@@ -291,7 +313,7 @@ Console.WriteLine("----");
 MemoryAnswer answer2 = await memory.AskAsync(question2);
 Console.WriteLine(answer2.Result);
 Console.WriteLine();
-PrintCitation(answer2);
+PrintKernelMemoryCitation(answer2);
 
 string question3 = "Did dinosaurs survive to this day?"; 
 Console.WriteLine(question3);
@@ -299,7 +321,7 @@ Console.WriteLine("----");
 MemoryAnswer answer3 = await memory.AskAsync(question3); 
 Console.WriteLine(answer3.Result);
 Console.WriteLine();
-PrintCitation(answer3);
+PrintKernelMemoryCitation(answer3);
 
 string question3b = "Are dinosaurs alien?";
 Console.WriteLine(question3b);
@@ -309,24 +331,40 @@ Console.WriteLine(answer3b.Result);
 Console.WriteLine();
 PrintKernelMemoryCitation(answer3b);
 
-
 string question4 = "What is kernel memory? How do I instantiate one with KernelMemoryBuilder in .NET for Azure OpenAI? Ignore the import and config. Do not leave the code incomplete.";
 Console.WriteLine(question4);
 Console.WriteLine("----");
 MemoryAnswer answer4 = await memory.AskAsync(question4);
 Console.WriteLine($"Kernel Memory Results: \n {answer4.Result}");
 Console.WriteLine();
-PrintCitation(answer4);
+PrintKernelMemoryCitation(answer4);
 
-agentThread.ChatHistory.AddAssistantMessage($"Results of the previous Kernel Memory results: {answer4.Result}");
-var userPrompt = $"Please take this result, and fix or complete the provided code. The code should mostly be correct. Fix syntax and fill in any missing gap. The results and code is in the line below: \n {answer4.Result}";
+string question5 = "In Kernel Memory what line of code do I need to ask async or query, basically perform rag get the results from the memory?";
+Console.WriteLine(question5);
+Console.WriteLine("----");
+MemoryAnswer answer5 = await memory.AskAsync(question5);
+Console.WriteLine($"Kernel Memory Results: \n {answer5.Result}");
+Console.WriteLine();
+PrintKernelMemoryCitation(answer5);
+
+
+// Utilizing Semantic Kernel and An AI Agent or Chat Completion to contextualize the last two question
+// =====================================================================================
+//Contextualize kernel memory results with feedback from text generation LLM
+//An Aside Thought:
+//  It appears the kernel memory response is based on how it partitions and embeds the contents in a document, some results may be incomplete as with the code questions.
+//  I think we can use AI Agent orchestration to essentially contextualize, fix, and complete segmented RAG responses.
+//  A process and a concurrent or even magentic orchestration would be very useful in this context
+//  The key is to ask very specific questions about components of the code, and take the results and combine them.
+
+agentThread.ChatHistory.AddAssistantMessage($"Results of the previous Kernel Memory questions:\n{answer4.Result} \n and \n {answer5.Result}");
+var userPrompt = $"Please take this result, and fix or complete the provided code. The code should mostly be correct. Fix syntax and fill in any missing gap. Combine the results if needed into one cohesive solution. The results and code is in the line below: \n {answer4.Result} and \n{answer5.Result}";
 var userInput = new ChatMessageContent(AuthorRole.User, userPrompt);
 var answer4a = devAgent.InvokeAsync(userInput, agentThread);
 Console.WriteLine($"Chat AI Agent Contextualized Results: \n{answer4a.ToArrayAsync().Result.Last().Message.Content}");
 Console.WriteLine();
 
-
-void PrintCitation(MemoryAnswer answer)
+void PrintKernelMemoryCitation(MemoryAnswer answer)
 {
     // Citations
     Console.WriteLine("Answer Sources:");
@@ -336,7 +374,9 @@ void PrintCitation(MemoryAnswer answer)
         var citationUpdates = $"{source.Partitions.First().LastUpdate:D}";
         var citation = $"* {source.SourceContentType} -- (docId: {source.DocumentId})   -- {citationUpdates}";
 
-        ansiConsole.WriteLine($"{citation}");
+        Console.WriteLine(source.SourceUrl != null
+            ? $"  - {source.SourceUrl} [{source.Partitions.First().LastUpdate:D}]"
+            : $"  - {source.SourceName}  - {source.Link} [{citationUpdates}]");
     }
     Console.WriteLine();
 }

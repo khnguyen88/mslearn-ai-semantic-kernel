@@ -2,6 +2,9 @@
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.KernelMemory;
+using Microsoft.KernelMemory.DocumentStorage.DevTools;
+using Microsoft.KernelMemory.FileSystem.DevTools;
+using Microsoft.KernelMemory.MemoryStorage.DevTools;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
@@ -89,11 +92,15 @@ AzureAISearchConfig azureAISearchConfig = new()
 
 
 IKernelMemoryBuilder memoryBuilder = new KernelMemoryBuilder()
+    .WithSimpleFileStorage(new SimpleFileStorageConfig { StorageType = FileSystemTypes.Disk }) // Allows local persistent storage (in the bin folder)
+    .WithSimpleVectorDb(new SimpleVectorDbConfig {StorageType = FileSystemTypes.Disk }) // Allow local persistent storage (in the bin folder)
     .WithAzureOpenAITextGeneration(textAzureOpenAIConfig)
     .WithAzureOpenAITextEmbeddingGeneration(embeddingAzureOpenAIConfig);
 
-IKernelMemory memory = memoryBuilder.Build();
+IKernelMemory memory = memoryBuilder.Build<MemoryServerless>();
 
+//NOTE: Further research is required below: https://github.com/microsoft/kernel-memory/issues/203
+//IKernelMemory memory = memoryBuilder.Build(new KernelMemoryBuilderBuildOptions { AllowMixingVolatileAndPersistentData = true }); //Temp to resolve warning. Need to investigate a bit more
 
 // Create a kernel builder with Azure OpenAI chat completion (Extra)
 // ---------------------------------------------------------------
@@ -325,8 +332,7 @@ var answer4a = devAgent.InvokeAsync(userInput, agentThread);
 Console.WriteLine($"Chat AI Agent Contextualized Results: \n{answer4a.ToArrayAsync().Result.Last().Message.Content}");
 Console.WriteLine();
 
-
-void PrintCitation(MemoryAnswer answer)
+void PrintKernelMemoryCitation(MemoryAnswer answer)
 {
     // Citations
     Console.WriteLine("Answer Sources:");

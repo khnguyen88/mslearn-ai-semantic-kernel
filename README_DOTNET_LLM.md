@@ -373,12 +373,26 @@ Using an agent framework for application development provides advantages that ar
 
 ## Resources / References
 
+### Recommended:
+
 -   [Github - Microsoft - Kernel Memory](https://github.com/microsoft/kernel-memory)
--   [Getting started with Kernel Memory](https://www.youtube.com/watch?v=rsW2HTM6tM8)
--   [Document Search in .NET with Kernel Memory](https://www.youtube.com/watch?v=h8bKn1nzjrQ)
+-   [Youtube - Matt Eland's Document Search in .NET with Kernel Memory](https://www.youtube.com/watch?v=h8bKn1nzjrQ)
+-   [Github - Matt Eland's Document Search with Kernel Memory Code](https://github.com/IntegerMan/DocumentSearchWithKernelMemory/blob/main/MattEland.Demos.KernelMemory.DocumentSearch/MattEland.Demos.KernelMemory.DocumentSearch/Program.cs)
+-   [LeadingEDJE's Kernel Memory Search Blog Post](https://blog.leadingedje.com/post/ai/documents/kernelmemory.html)
+-   [Johnny Reilly's Blog on Chunking Documents into Azure AI Search](https://johnnyreilly.com/using-kernel-memory-to-chunk-documents-into-azure-ai-search)
+-   [StormHub's dev.to Post on Kernel Memory with Azure Services](https://dev.to/stormhub/kernel-memory-with-azure-openai-blob-storage-and-ai-search-services-1245)
+-   [StormHub's GitHub Code for Azure Kernel Memory Integration](https://github.com/StormHub/stormhub/blob/main/resources/2024-11-18/ConsoleApp/ConsoleApp/Program.cs)
+-   [Semantic Kernel with Azure Search - RAG + Kernel Memory](https://devblogs.microsoft.com/semantic-kernel/azure-openai-on-your-data-with-semantic-kernel/)
+
+### Others:
+
+-   [Kernel Memory: Cleanup extract text, example of ingestion pipeline customization](https://www.youtube.com/watch?v=cnIn_shg8sQ)
 -   [Kernal Memory Learn Series Playlist - Will Velida](https://www.youtube.com/watch?v=ZIBSD8ECuiw&list=PLvtybS2EHFJiVD-AjgkO-7OXiVbUi_Ia-)
 -   [Kernel Memory: integrate in your code with serverless mode.](https://www.youtube.com/watch?v=DV-YxQSHer4)
 -   [Build a custom Copilot experience with your private data using and Kernel Memory](https://www.developerscantina.com/p/kernel-memory/)
+-   [Agentic retrieval in Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-agentic-retrieval-concept)
+-   [Retrieval Augmented Generation (RAG) in Azure AI Search](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview?tabs=docs)
+-   [Azure OpenAI On Your Data with Semantic Kernel](https://devblogs.microsoft.com/semantic-kernel/azure-openai-on-your-data-with-semantic-kernel/)
 
 # RAG
 

@@ -24,10 +24,10 @@ If you encounter any problems in the exercises, please report them as **issues**
 ## NOTE: I personally extended the scope of this lab beyond what it was intended to cover, including additional topics such as Semantic Kernel's Agent Framework and Process Framework, as well as Kernel Memory and RAG. The additional sandboxed labs were all achieved by reading Microsoft's documentation and GitHub.
 
 ### Additional Lab Resources:
--    [Microsoft - Semantic Kernel Overview](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
-    -    [Microsoft - Semantic Kernel - Framework - Agent](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/?pivots=programming-language-csharp)
-    -    [Microsoft - Semantic Kernel - Framework - Agent Orchestration](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-orchestration/?pivots=programming-language-csharp)
-    -    [Microsoft - Semantic Kernel - Framework - Process](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/process/process-framework)
--    [Github - Microsoft - Kernel Memory](https://github.com/microsoft/kernel-memory)
--    [Microsoft - Kernel Memory - Webpage (WIP, Not really good)](https://microsoft.github.io/kernel-memory/)
+-   [Microsoft - Semantic Kernel Overview](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
+    -   [Microsoft - Semantic Kernel - Framework - Agent](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/?pivots=programming-language-csharp)
+    -   [Microsoft - Semantic Kernel - Framework - Agent Orchestration](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-orchestration/?pivots=programming-language-csharp)
+    -   [Microsoft - Semantic Kernel - Framework - Process](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/process/process-framework)
+-   [Github - Microsoft - Kernel Memory](https://github.com/microsoft/kernel-memory)
+-   [Microsoft - Kernel Memory - Webpage (WIP, Not really good)](https://microsoft.github.io/kernel-memory/)
   

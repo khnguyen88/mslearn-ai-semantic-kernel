@@ -21,9 +21,9 @@ If you encounter any problems in the exercises, please report them as **issues**
     -   [Let's Learn .NET Semantic Kernel - Github.IO Instruction](https://microsoftlearning.github.io/mslearn-ai-semantic-kernel/)
     -   [Let's Learn .NET Semantic Kernel - Github Template](https://github.com/MicrosoftLearning/mslearn-ai-semantic-kernel)
 
-# NOTE: I personally extended the scope of this lab beyond what it was intended to cover, including additional topics such as Semantic Kernel's Agent Framework and Process Framework, as well as Kernel Memory and RAG. The additional sandboxed labs were all achieved by reading Microsoft's documentation and GitHub.
+## NOTE: I personally extended the scope of this lab beyond what it was intended to cover, including additional topics such as Semantic Kernel's Agent Framework and Process Framework, as well as Kernel Memory and RAG. The additional sandboxed labs were all achieved by reading Microsoft's documentation and GitHub.
 
-## Additional Lab Resources:
+### Additional Lab Resources:
 -    [Microsoft - Semantic Kernel Overview](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
     - [Microsoft - Semantic Kernel - Framework - Agent](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/?pivots=programming-language-csharp)
     - [Microsoft - Semantic Kernel - Framework - Agent Orchestration](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-orchestration/?pivots=programming-language-csharp)

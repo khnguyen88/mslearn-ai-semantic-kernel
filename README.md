@@ -14,9 +14,20 @@ If you encounter any problems in the exercises, please report them as **issues**
 
 
 
-# Resources
+## Main Lab Resources
 
 -   [Let's Learn .NET Semantic Kernel - From MS DOTNET - Video](https://www.youtube.com/watch?v=lCQOCoH3Osk)
     -   [Let's Learn .NET Semantic Kernel - Training Module](https://learn.microsoft.com/en-us/collections/4wrote7dxq3mxx?WT.mc_id=dotnet-147962-juyoo)
     -   [Let's Learn .NET Semantic Kernel - Github.IO Instruction](https://microsoftlearning.github.io/mslearn-ai-semantic-kernel/)
     -   [Let's Learn .NET Semantic Kernel - Github Template](https://github.com/MicrosoftLearning/mslearn-ai-semantic-kernel)
+
+## NOTE: I personally extended the scope of this lab beyond what it was intended to cover, including additional topics such as Semantic Kernel's Agent Framework and Process Framework, as well as Kernel Memory and RAG. The additional sandboxed labs were all achieved by reading Microsoft's documentation and GitHub.
+
+### Additional Lab Resources:
+-   [Microsoft - Semantic Kernel Overview](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
+    -   [Microsoft - Semantic Kernel - Framework - Agent](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/?pivots=programming-language-csharp)
+    -   [Microsoft - Semantic Kernel - Framework - Agent Orchestration](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-orchestration/?pivots=programming-language-csharp)
+    -   [Microsoft - Semantic Kernel - Framework - Process](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/process/process-framework)
+-   [Github - Microsoft - Kernel Memory](https://github.com/microsoft/kernel-memory)
+-   [Microsoft - Kernel Memory - Webpage (WIP, Not really good)](https://microsoft.github.io/kernel-memory/)
+  

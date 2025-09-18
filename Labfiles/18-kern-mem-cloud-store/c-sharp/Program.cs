@@ -320,6 +320,7 @@ Console.WriteLine(answer3.Result);
 Console.WriteLine();
 PrintKernelMemoryCitation(answer3);
 
+Console.WriteLine("With Tags");
 string question3b = "Are dinosaurs alien?";
 Console.WriteLine(question3b);
 Console.WriteLine("----");
@@ -327,6 +328,16 @@ MemoryAnswer answer3b = await memory.AskAsync(question3b, filter: new MemoryFilt
 Console.WriteLine(answer3b.Result);
 Console.WriteLine();
 PrintKernelMemoryCitation(answer3b);
+
+
+Console.WriteLine("Without Tags");
+string question3c = "Are dinosaurs alien?";
+Console.WriteLine(question3c);
+Console.WriteLine("----");
+MemoryAnswer answer3c = await memory.AskAsync(question3c, filter: new MemoryFilter());
+Console.WriteLine(answer3c.Result);
+Console.WriteLine();
+PrintKernelMemoryCitation(answer3c);
 
 string question4 = "What is kernel memory? How do I instantiate one with KernelMemoryBuilder in .NET for Azure OpenAI? Ignore the import and config. Do not leave the code incomplete.";
 Console.WriteLine(question4);

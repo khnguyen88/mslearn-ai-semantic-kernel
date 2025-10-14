@@ -93,7 +93,7 @@ ChatCompletionAgent devOpAgent =
         Name = "DevOpAgent",
         Instructions = "You are an AI DevOp Agents. Assist the users in anyway you can based on their request. Use the Plugin methods and filter methods, provided to help you.",
         Description = "An agent that assists the users on Devop Task given the Plugin methods and filters methods, and present them in human readable format.",
-        Kernel = kernel,
+        Kernel = kernel.Clone(),
         Arguments = new KernelArguments(openAIPromptExecutionSettings)
     };
 

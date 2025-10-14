@@ -192,7 +192,7 @@ OrchestrationResult<string> result = await orchestration.InvokeAsync(initialProm
 // =====================================================================================
 
 //string output = await result.GetValueAsync(TimeSpan.FromSeconds(300));
-string output = await result.GetValueAsync();
+string output = await result.GetValueAsync(TimeSpan.FromSeconds(120));
 Console.WriteLine($"\n# RESULT: {output}");
 Console.WriteLine("====================================");
 Console.WriteLine("\n");

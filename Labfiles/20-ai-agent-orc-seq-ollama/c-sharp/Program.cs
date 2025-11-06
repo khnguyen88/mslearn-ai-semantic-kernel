@@ -164,42 +164,42 @@ await foreach (var item in response4)
 }
 
 
-//// Start the runtime
-//// =====================================================================================
-//// A runtime is required to manage the execution of agents. Here, we use InProcessRuntime and start it before invoking the orchestration.
-//InProcessRuntime runtime = new InProcessRuntime();
-//await runtime.StartAsync();
+// Start the runtime
+// =====================================================================================
+// A runtime is required to manage the execution of agents. Here, we use InProcessRuntime and start it before invoking the orchestration.
+InProcessRuntime runtime = new InProcessRuntime();
+await runtime.StartAsync();
 
 
-//// Get user input
-//// Invoke the orchestration
-//// ====================================================================================
-//Console.WriteLine("What should we write a story about?");
-//string input = string.Empty;
-//input = Console.ReadLine();
-//// Invoke the orchestration
-//// ====================================================================================
+// Get user input
+// Invoke the orchestration
+// ====================================================================================
+Console.WriteLine("What should we write a story about?");
+string input = string.Empty;
+input = Console.ReadLine();
+// Invoke the orchestration
+// ====================================================================================
 
-//Console.WriteLine($"\n# INPUT: {input}\n");
-//OrchestrationResult<string> result = await orchestration.InvokeAsync(input, runtime);
-
-
-//// Console Conversation
-//// =====================================================================================
-//string text = await result.GetValueAsync(TimeSpan.FromSeconds(30));
-//Console.WriteLine($"\n# CHAT ORCHESTRATION RESULT: {text}");
-//Console.WriteLine("\n\nORCHESTRATION HISTORY: ");
-//foreach (ChatMessageContent message in history)
-//{
-//    Console.WriteLine($"{message.AuthorName}:");
-//    Console.WriteLine($"{message.Content}");
-//    Console.WriteLine("\n");
+Console.WriteLine($"\n# INPUT: {input}\n");
+OrchestrationResult<string> result = await orchestration.InvokeAsync(input, runtime);
 
 
-//}
+// Console Conversation
+// =====================================================================================
+string text = await result.GetValueAsync(TimeSpan.FromSeconds(30));
+Console.WriteLine($"\n# CHAT ORCHESTRATION RESULT: {text}");
+Console.WriteLine("\n\nORCHESTRATION HISTORY: ");
+foreach (ChatMessageContent message in history)
+{
+    Console.WriteLine($"{message.AuthorName}:");
+    Console.WriteLine($"{message.Content}");
+    Console.WriteLine("\n");
 
-//// Stop the Runtime
-//// ====================================================================================
-//// After processing is complete, stop the runtime to clean up resources.
-//await runtime.RunUntilIdleAsync();
+
+}
+
+// Stop the Runtime
+// ====================================================================================
+// After processing is complete, stop the runtime to clean up resources.
+await runtime.RunUntilIdleAsync();
 #pragma warning restore
